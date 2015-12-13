@@ -1,0 +1,69 @@
+﻿@using PotatoCatalog.Models
+@model GameViewModel
+@{
+    ViewBag.Title = "Create Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/content/bootstrap-datepicker.css")
+}
+
+@section Scripts{
+    @Scripts.Render("~/scripts/bootstrap-datepicker.js")
+    <script type="text/javascript" >
+        $(function () {
+            $('.datepicker').datepicker({
+                format: 'dd-mm-yyyy'
+            });
+        });
+    </script>
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+@using (Html.BeginForm("CreateGame", "Game", FormMethod.Post, new {@class = "form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    <h3>@ViewBag.Message</h3>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Title, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.Title, "", new {@class = "text-danger"})
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Publisher, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Publisher, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.Publisher, "", new {@class = "text-danger"})
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Developer, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Developer, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.Developer, "", new {@class = "text-danger"})
+        </div>
+    </div>
+    <div type="text" class="form-group">
+        @Html.LabelFor(m => m.ReleaseDate, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ReleaseDate,"{0:dd-MM-yyyy}", new {@class = "form-control datepicker"})
+            @Html.ValidationMessageFor(m => m.ReleaseDate, "", new {@class = "text-danger"})
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.Description, new {@class = "form-control", rows = 8})
+            @Html.ValidationMessageFor(m => m.Description, "", new {@class = "text-danger"})
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-1 col-md-10">
+            <h5>You will be able to add tags and Box Art by editing this game after creation.</h5>
+            <input class="btn btn-primary  btn-warning" type="submit" value="Create Game"/>
+        </div>
+    </div>
+}

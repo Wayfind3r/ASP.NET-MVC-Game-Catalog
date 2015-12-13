@@ -1,0 +1,21 @@
+﻿@model PotatoCatalog.Models.Potatoes
+
+@section Scripts{
+    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+}
+
+@if (Model != null)
+{
+    <div data-toggle="tooltip" data-placement="bottom" title="Oh yes, these are your potatoes. Use them to buy pixels from our Shop." >
+        <div class="navbar-text navbar-left" style="margin-left: 3px; margin-right: 3px">
+            @Model.Amount
+        </div>
+        <div class="navbar-right">
+            <img src="~/images/moneypotato.png" class="img-responsive" alt="potatomoney" style="max-height: 30px; margin-top: 8px; margin-right: 10px;" />
+        </div>
+    </div>
+}

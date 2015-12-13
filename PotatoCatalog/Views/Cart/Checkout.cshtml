@@ -1,0 +1,25 @@
+﻿@model PotatoCatalog.Models.AddressViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Checkout</h2>
+<p>Please enter your address, we won't be ship anything to you regardless.</p>
+
+@using (Html.BeginForm("Checkout", "Cart", FormMethod.Post, new {@class = "form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <h3>Ship to</h3>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Address)
+        @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+    </div>
+
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Complete Order"/>
+    </div>
+}
+

@@ -1,0 +1,24 @@
+﻿@model PotatoCatalog.Models.GameViewModel
+    
+@*<h5 class="col-md-offset-1">Upload image for @Html.DisplayFor(model => model.Title) :</h5>*@
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <img class="thumbnail" src="@Url.Content(Model.ImagePath)" alt="OldImage" />
+    }
+    <div class="col-md-offset-3">
+    <h5>Acceptable image formats: .jpg, .gif, .jpeg or .png</h5>
+    <h5>Images will be croppep to fit default site sizes.</h5>
+    <h5>Maximum image height: 1200</h5>
+    <h5>Minimum image height: 300</h5>
+    <h5>Maximum image width: 1200</h5>
+    <h5>Minimum image width: 150</h5>
+</div>
+    @using (Html.BeginForm("VerifyAndUploadImage", "Game", Model, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @*@Html.AntiForgeryToken()*@
+        <input class="btn btn-default col-md-offset-3 btn-warning" name="file" type="file"  id="file"/>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" value="Upload" class="btn btn-primary"/>
+        </div>
+    }

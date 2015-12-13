@@ -1,0 +1,93 @@
+﻿@model IEnumerable<PotatoCatalog.Models.SimpleGameViewModel>
+
+@section Scripts{
+    @*TryDelete jquery+ajax*@
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('click', '.delete', function(e) {
+                e.preventDefault();
+                var _self = $(this);
+                $("#modalLabel").text("Delete this game?");
+                var dataUrl = _self.data('url');
+
+                $.ajax({
+                    type: 'GET',
+                    url: dataUrl,
+                    cache: false,
+                    success: function(e) {
+                        var content = [];
+                        content.push(e);
+
+                        $('#delete-modal .modal-data').html(content.join(''));
+                        $(_self.attr('href')).modal('show');
+                    },
+                    error: function() {}
+                });
+                return;
+            });
+        });
+    </script>
+}
+
+@{
+    ViewBag.Title = "ManageGames";
+    ViewBag.Message = "You can view, edit and try to delete games here.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<h4>@ViewBag.Message</h4>
+
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Publisher)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Developer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Title
+            </td>
+            <td>
+                @item.Publisher
+            </td>
+            <td>
+                @item.Developer
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate, "{0:dd-MM-yyyy}")
+            </td>
+            <td>
+                <a class="btn btn-primary btn-xs delete" data-id="@item.Id" data-url="@Url.Action("TryDeleteGame","Game",new{Id=item.Id})" href="#delete-modal">delete</a>
+                <a>@Html.ActionLink("edit", "EditGame", "Game", new { id = item.Id },new { @class = "btn btn-primary btn-xs edit" })</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+
+</table>
+<div class="modal fade col-md-offset-4 col-md-4" style="margin-top: 50px;" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="modalLabel">Game modal</h4>
+        </div>
+        <div class="modal-data">
+
+        </div>
+    </div>
+</div>

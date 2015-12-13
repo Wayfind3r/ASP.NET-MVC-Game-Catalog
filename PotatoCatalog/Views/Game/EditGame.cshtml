@@ -1,0 +1,165 @@
+﻿@using System.Activities.Expressions
+@using System.Web.Mvc.Html
+@using PotatoCatalog.Models
+@model PotatoCatalog.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Edit Game";
+    ViewBag.Message = "Edit this game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    @Styles.Render("~/content/bootstrap-datepicker.css")
+}
+
+@section Scripts{
+    @Scripts.Render("~/scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+    @*datepicker*@
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(function() {
+                $('.datepicker').datepicker({
+                    format: 'dd-mm-yyyy'
+                });
+            });
+        });
+    </script>
+    @*remove tag from tag cloud*@
+    <script type="text/javascript">
+        $(document).on("click", ".removeTag", function (e) {
+            e.preventDefault();
+            var _self = $(this);
+            $.post(_self.attr("href"), function(res) {
+                if (res.Status === "success") {
+                    _self.closest("row").remove();
+                }
+            });
+        });
+    </script>
+    @*createtag view jquery+ajax*@
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#addTag").click(function(e) {
+                e.preventDefault();
+                var _self = $(this);
+                var dataUrl = _self.data('url');
+                var gamei = _self.data('id');
+                var tagval = $("#newTag").val();
+                $.ajax({
+                    type: 'POST',
+                    url: dataUrl,
+                    cashe: false,
+                    data: { currentGameId: gamei, newTag: tagval },
+                    success: function(r) {
+                        if (r.Status === "success") {
+                            var newItem = $("<row><a href='@Url.Action("DeleteTagItemByGameIdAndValue", "Tag")?GameID=" + @Model.Id +
+                                   "&tagValue=" +tagval+"' class='btn btn-info btn-xs removeTag' style = 'margin-top: 7px; margin-bottom: 7px;margin-right: 7px;'>"+tagval+" X</a></row>");
+
+                            $('#TagsDiv').append(newItem);
+                        }
+                    },
+                    error: function () { }
+                });
+            });
+        });
+    </script>
+}
+
+<h2 class="text-center">Edit Game</h2>
+<hr />
+<div class="row">
+    @using (Html.BeginForm("EditGame", "Game", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Publisher, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Publisher, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Publisher, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Developer, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Developer, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Developer, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div type="text" class="form-group">
+                @Html.LabelFor(m => m.ReleaseDate, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.ReleaseDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(m => m.ReleaseDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", rows = 8 } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.LabelFor(model => model.ImagePath, new { @class = "col-md-2 control-label" })
+            <input class="btn btn-default btn-warning" name="file" type="file" id="file" />
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-10">
+                    <h5>Acceptable image formats: .jpg, .gif, .jpeg or .png</h5>
+                    <h5>Image aspect ratio should be ~16:10 (within 9% deviation)</h5>
+                    <h5>Maximum image width: 1200</h5>
+                    <h5>Minimum image width: 280</h5>
+                    <h5>Maximum image height: 750</h5>
+                    <h5>Minimum image height: 175</h5>
+                    <input class="btn btn-primary  btn-warning" type="submit" value="Save changes" />
+                </div>
+            </div>
+        </div>
+    }
+    <div class="col-md-6">
+        @Html.ActionLink("Manage Editions", "ManageGameEditions",
+                                 "GameEdition", new { gameId = Model.Id},
+                                 new { @class = "btn btn-info manageGameEditions", @style = "margin: 10px;" })
+        @if (string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img class="thumbnail" src="~/images/noImage.jpg" alt="NoImage" style="width: 80%;"/>
+        }
+        else
+        {
+            <div>
+                <img class="thumbnail" src="@Url.Content(Model.ImagePath)" alt="GameImage"/>
+            </div>
+        }
+        @Html.LabelFor(model => model.Tags, new {@class = "control-label"})
+        <div name="TagsDiv" id="TagsDiv">
+            @foreach (var tagItem in Model.Tags)
+            {
+                <row>
+                    @Html.ActionLink(@tagItem.Name + " X", "DeleteTagItemByGameIdAndValue",
+                        "Tag", new {GameID = Model.Id, tagValue = tagItem.Name},
+                        new {@class = "btn btn-info btn-xs removeTag", @style = "margin-top: 7px; margin-bottom: 7px;margin-right: 7px;"})
+                </row>
+            }
+        </div>
+        <div>
+            <input type="text" class="form-control has-success col-md-6" id="newTag" placeholder="Type new tag value here"/>
+            <button class="btn btn-success add" data-id="@Model.Id" id="addTag" data-url="@Url.Action("CreateTagItem", "Tag")">Add New Tag</button>
+        </div>
+    </div>
+</div>
+

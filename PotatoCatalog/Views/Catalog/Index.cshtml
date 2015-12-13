@@ -1,0 +1,61 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<PotatoCatalog.Models.GameViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".gamebox").mouseenter(function () {
+                $(this).find(".gameinfo").show();
+            }).mouseleave(function () {
+                $(this).find(".gameinfo").hide();
+            });
+        });
+    </script>
+}
+<div class="col-md-12"  style="margin: 10px;">
+    @foreach (var item in Model)
+    {
+        <div data-id="@item.Id" class="col-md-4 gamebox">
+            <div class="text-center" style="margin: 10px;">
+                <a class="col-md-12 imageAndText" href="@Url.Action("SingleGameView", "Game", new {id = item.Id})">
+                    <h4 class="txt" style="margin-top: 10px; margin-left: 30px; font-weight: bolder; text-shadow: 2px 2px #fefefe; color: #000000;">@item.Title</h4>
+                    @if (string.IsNullOrEmpty(item.ImagePath))
+                    {
+                        <img src="~/images/noImage.jpg" alt="NoImage" class="img-responsive" style="outline: 1px solid orange; width: 100%"/>
+                    }
+                    else
+                    {
+                        <img src="@Url.Content(item.ImagePath)" alt="GameImage" class="img-responsive" style="outline: 1px solid orange;"/>
+                    }
+                    <div class="gameinfo" style="outline: 1px solid orange; display: none;">
+                        <div style="color: black">
+                            <div>
+                                @Html.LabelFor(modelItem => item.Publisher)
+                                @Html.DisplayFor(modelItem => item.Publisher)
+                            </div>
+                            <div>
+                                @Html.LabelFor(modelItem => item.Developer)
+                                @Html.DisplayFor(modelItem => item.Developer)
+                            </div>
+                        </div>
+                        <div class="description col-md-12" style="color: black">
+                            @item.Description
+                        </div>
+                    </div>
+                </a>
+                <div class="tagcloud col-md-12">
+                    @foreach (var tag in item.Tags)
+                    {
+                        //Place search by tag logic here
+                        <div class="btn btn-primary btn-xs Tag" style="margin: 3px;" href="@Url.Action("SearchByTag", "Catalog", new {tagId = item.Id})">@tag.Name</div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

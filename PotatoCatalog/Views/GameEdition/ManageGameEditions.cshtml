@@ -1,0 +1,136 @@
+﻿@model PotatoCatalog.Models.GameEditionViewModelBag
+
+@{
+        ViewBag.Message = "Game Editions with pending orders cannot be deleted.";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts{
+@*Create jquery+ajax*@
+<script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('click', '.create', function(e) {
+                e.preventDefault();
+                var _self = $(this);
+                $("#edit-modalLabel").text("Create a new Game Edition");
+                var dataUrl = _self.data('url');
+
+                $.ajax({
+                    type: 'GET',
+                    url: dataUrl,
+                    cache: false,
+                    success: function(e) {
+                        var content = [];
+                        content.push(e);
+
+                        $('#manage-modal .modal-data').html(content.join(''));
+                        $(_self.attr('href')).modal('show');
+                    },
+                    error: function() {}
+                });
+                return;
+            });
+        });
+</script>
+    @*Delete edition*@
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on("click", ".delete", function(e) {
+                e.preventDefault();
+                var _self = $(this);
+                var title = _self.data("title");
+                $("#edit-modalLabel").text("Delete Edition : " + title);
+                var dataUrl = _self.data('url');
+
+                $.ajax({
+                    type: 'GET',
+                    url: dataUrl,
+                    cashe: false,
+                    success: function (e) {
+                        var content = [];
+                        content.push(e);
+
+                        $("#manage-modal .modal-data").html(content.join(''));
+                        $(_self.attr("href")).modal('show');
+                    },
+                    error: function () { }
+                });
+            });
+        });
+    </script>
+    @*Edit edition*@
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on("click", ".edit", function(e) {
+                e.preventDefault();
+                var _self = $(this);
+                var title = _self.data("title");
+                $("#edit-modalLabel").text("Edit Edition : " + title);
+                var dataUrl = _self.data('url');
+
+                $.ajax({
+                    type: 'GET',
+                    url: dataUrl,
+                    cashe: false,
+                    success: function (e) {
+                        var content = [];
+                        content.push(e);
+
+                        $("#manage-modal .modal-data").html(content.join(''));
+                        $(_self.attr("href")).modal('show');
+                    },
+                    error: function (){}
+                });
+            });
+        });
+    </script>
+}
+
+<h2 class="text-center">Game Editions for @Model.GameTitle</h2>
+<h5 class="text-center">@ViewBag.Message</h5>
+<a class="btn btn-warning create" data-url="@Url.Action("CreateGameEdition", "GameEdition", new { gameId = Model.GameId})" href="#manage-modal">Create a new Edition</a>
+
+@foreach (var edition in Model.List)
+{
+    <form class="form-horizontal customborder"  style="margin: 7px;">
+        <fieldset style="margin: 7px;">
+            <legend>@edition.EditionTitle</legend>
+            <div class="form-group col-md-6">
+                <h5 style="font-weight: bold;">Price: </h5>
+                @edition.PriceInPotatoes
+            </div>
+            <div class="form-group col-md-6">
+                <h5 style="font-weight: bold;">Has pending Orders?</h5>
+                @if (edition.isPending)
+                {
+                    <h5>Yes</h5>
+                }
+                else
+                {
+                    <h5>No</h5>
+                }
+            </div>
+            <div class="form-group  col-md-6">
+                <h5 style="font-weight: bold;">Contents</h5>
+                @Html.Raw("<pre>"+ Html.Encode(edition.Contents) + "</pre>")
+            </div>
+            <div class="form-group col-md-6">
+                @if (!edition.isPending)
+                {
+                    <a class="btn btn-primary btn-xs delete" data-title="@edition.EditionTitle" data-url="@Url.Action("DeleteGameEdition", "GameEdition", new { id = edition.Id})" href="#manage-modal">delete</a>
+                }
+                <a class="btn btn-primary btn-xs edit" data-title="@edition.EditionTitle" data-url="@Url.Action("EditGameEdition", "GameEdition", new {id = edition.Id})" href="#manage-modal">edit</a>
+            </div>
+</fieldset>
+</form>
+}
+        <div class="modal fade col-md-offset-4 col-md-4" style="margin-top: 50px;" id="manage-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="edit-modalLabel">modal</h4>
+                </div>
+                <div class="modal-data">
+
+                </div>
+            </div>
+        </div>

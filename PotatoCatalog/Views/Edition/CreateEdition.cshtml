@@ -1,0 +1,18 @@
+﻿@model PotatoCatalog.Models.Edition
+
+@using (Html.BeginForm("CreateEdition", "Edition", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-body">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(t => t.Name, new { @class = "control-label" })
+            @Html.TextBoxFor(t => t.Name, new { @class = "form-control", id = "namebox" })
+            @Html.ValidationMessageFor(t => t.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input class="btn btn-primary" type="submit" value="Save" />
+    </div>
+}
