@@ -353,6 +353,9 @@
     <Content Include="Views\Cart\Checkout.cshtml" />
     <Content Include="Views\Cart\Completed.cshtml" />
     <Content Include="Views\Order\ManagePendingOrders.cshtml" />
+    <Content Include="Views\Order\OrderHistory.cshtml" />
+    <Content Include="Views\Order\PersonalOrderHistory.cshtml" />
+    <Content Include="Views\Order\OrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

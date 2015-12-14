@@ -69,8 +69,23 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
-       
-        public List<OrderViewModel> GetNonRejectedOrderViewModelList()
+
+        public List<OrderViewModel> GetOrderViewModelListForUser(int id)
+        {
+            var result = new List<OrderViewModel>();
+            using (var db = new ApplicationDbContext())
+            {
+                result = db.Orders.Where(x => x.UserId == id).Select(x => new OrderViewModel
+                {
+                    Id = x.Id,
+                    Address = x.Address,
+                    PriceInPotatoes = x.PriceInPotatoes,
+                    OrderStatus = x.OrderStatus,
+                }).ToList();
+            }
+            return result;
+        }
+        public List<OrderViewModel> GetPendingOrderViewModelList()
         {
             var result = new List<OrderViewModel>();
             using (var db = new ApplicationDbContext())
@@ -83,6 +98,26 @@ namespace PotatoCatalog.Services
                     OrderStatus = x.OrderStatus,
                     UserEmail = x.User.Email
                 }).ToList();
+            }
+            return result;
+        }
+
+        public List<OrderViewModel> GetNotPendingOrderViewModelList()
+        {
+            var result = new List<OrderViewModel>();
+            using (var db = new ApplicationDbContext())
+            {
+                result =
+                    db.Orders.Where(x => x.OrderStatus != OrderStatus.Pending)
+                        .Include(u => u.User)
+                        .Select(x => new OrderViewModel
+                        {
+                            Id = x.Id,
+                            Address = x.Address,
+                            OrderStatus = x.OrderStatus,
+                            PriceInPotatoes = x.PriceInPotatoes,
+                            UserEmail = x.User.Email
+                        }).ToList();
             }
             return result;
         } 
@@ -106,6 +141,8 @@ namespace PotatoCatalog.Services
                 db.SaveChanges();
             }
         }
+
+        
             public void DeleteOrder(int orderID)
             {
                 using (var db = new ApplicationDbContext())

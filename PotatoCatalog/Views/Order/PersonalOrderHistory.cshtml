@@ -1,0 +1,30 @@
+﻿@model IEnumerable<PotatoCatalog.Models.OrderViewModel>
+
+@{
+    ViewBag.Title = "Personal Order History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr/>
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th>Address</th>
+        <th>Price in Potatoes</th>
+        <th>Order Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>@order.Address</td>
+            <td>@order.PriceInPotatoes</td>
+            <td>@order.OrderStatus.ToString()</td>
+            <td>@Html.ActionLink("details", "OrderDetails", "Order", new { orderId = order.Id, returnUrl = Request.Url.PathAndQuery }, new { @class = "btn btn-info btn-xs" })</td>
+        </tr>
+    }
+    </tbody>
+</table>
+

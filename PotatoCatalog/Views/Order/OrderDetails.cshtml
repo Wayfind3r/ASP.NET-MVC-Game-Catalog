@@ -1,0 +1,48 @@
+﻿@model PotatoCatalog.Models.OrderDetailedViedModel
+
+@{
+    ViewBag.Title = "Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h5>@Html.LabelFor(m => m.UserEmail): @Model.UserEmail</h5>
+<h5>@Html.LabelFor(m => m.Address): @Model.Address</h5>
+<hr/>
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th>Quantity</th>
+        <th>Game Title</th>
+        <th>Edition</th>
+        <th class="text-right">Price in Potatoes</th>
+        <th class="text-right">Subtotal</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var line in Model.Lines)
+    {
+        <tr>
+            <td class="text-center">@line.Quantity</td>
+            <td class="text-left">@line.GameEdition.GameTitle</td>
+            <td class="text-left">@line.GameEdition.EditionName</td>
+            <td class="text-right">@line.GameEdition.PriceInPotatoes</td>
+            <td class="text-right">@((line.Quantity*line.GameEdition.PriceInPotatoes))</td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="4" class="text-right">Total:</td>
+        <td class="text-right">
+            @Model.ComputeTotalValue()
+        </td>
+    </tr>
+    </tfoot>
+</table>
+
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Back</a>
+</div>
+

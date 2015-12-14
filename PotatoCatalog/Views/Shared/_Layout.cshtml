@@ -28,6 +28,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Shop", "Index", "Catalog")</li>
+                    <li>@Html.ActionLink("My Orders","PersonalOrderHistory","Order")</li>
                     @if (this.User.IsInRole("Admin"))
                     {
                         <li class="dropdown">
@@ -36,6 +37,7 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li>@Html.ActionLink("Order History","OrderHistory", "Order")</li>
                                 <li>@Html.ActionLink("Manage Orders", "ManagePendingOrders", "Order")</li>
                                 <li >@Html.ActionLink("Create Game", "CreateGame", "Game")</li>
                                 <li>@Html.ActionLink("Manage Games", "ManageGames", "Game")</li>
