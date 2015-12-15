@@ -1,5 +1,6 @@
 ﻿@using System.Web.UI.WebControls
-@model IEnumerable<PotatoCatalog.Models.GameViewModel>
+@using PagedList.Mvc
+@model PagedList.PagedList<PotatoCatalog.Models.GameViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -16,6 +17,12 @@
         });
     </script>
 }
+
+<div class="col-md-offset-4 col-md-8">
+    @Html.PagedListPager(Model, page=>Url.Action("Index","Catalog",
+    new {page, pageSize = Model.PageSize}))
+    Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Games
+</div>
 <div class="col-md-12"  style="margin: 10px;">
     @foreach (var item in Model)
     {

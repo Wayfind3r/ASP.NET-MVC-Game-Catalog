@@ -49,6 +49,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -157,6 +165,10 @@
     <Compile Include="Migrations\201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.cs" />
     <Compile Include="Migrations\201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.Designer.cs">
       <DependentUpon>201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512151853100_fix.cs" />
+    <Compile Include="Migrations\201512151853100_fix.Designer.cs">
+      <DependentUpon>201512151853100_fix.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -383,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.resx">
       <DependentUpon>201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512151853100_fix.resx">
+      <DependentUpon>201512151853100_fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

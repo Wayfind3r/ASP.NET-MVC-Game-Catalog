@@ -22,7 +22,7 @@ namespace PotatoCatalog.Models
         [Display(Name = "Contents")]
         public string Contents { get; set; }
         [Display(Name = "Has pending orders?")]
-        public bool isPending { get; set; }
+        public bool HasOrders { get; set; }
     }
 
     public class CreateGameEditionViewModel

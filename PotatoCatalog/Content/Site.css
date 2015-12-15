@@ -52,7 +52,7 @@ textarea {
 }
 
 .dropdown:hover .dropdown-menu {
-    position: absolute;
+    position: static;
     display: block;
 }
  .editionContents {

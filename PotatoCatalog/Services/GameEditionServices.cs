@@ -78,8 +78,8 @@ namespace PotatoCatalog.Services
                         .ToList();
                 foreach (var edition in result)
                 {
-                    var hasPendingOrders = db.OrderItems.Any(x => x.GameEditionId.Equals(edition.Id));
-                    edition.isPending = hasPendingOrders;
+                    var hasOrders = db.OrderItems.Any(x => x.GameEditionId.Equals(edition.Id));
+                    edition.HasOrders = hasOrders;
                 }
             }
             return result;

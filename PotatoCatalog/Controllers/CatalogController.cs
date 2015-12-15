@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using PotatoCatalog.Models;
 using PotatoCatalog.Services;
 
@@ -17,9 +18,10 @@ namespace PotatoCatalog.Controllers
             gameServices = new GameServices();
         }
         // GET: Catalog
-        public ActionResult Index()
+        public ActionResult Index(int page =1, int pageSize = 9)
         {
-            var model = gameServices.GetAllGameViewModels();
+            var list = gameServices.GetAllGameViewModels();
+            var model = new PagedList<GameViewModel>(list, page, pageSize);
             return View(model);
         }
         

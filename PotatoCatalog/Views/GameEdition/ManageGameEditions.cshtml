@@ -1,7 +1,7 @@
 ﻿@model PotatoCatalog.Models.GameEditionViewModelBag
 
 @{
-        ViewBag.Message = "Game Editions with pending orders cannot be deleted.";
+        ViewBag.Message = "Game Editions with orders cannot be deleted.";
         Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Scripts{
@@ -99,8 +99,8 @@
                 @edition.PriceInPotatoes
             </div>
             <div class="form-group col-md-6">
-                <h5 style="font-weight: bold;">Has pending Orders?</h5>
-                @if (edition.isPending)
+                <h5 style="font-weight: bold;">Has Orders?</h5>
+                @if (edition.HasOrders)
                 {
                     <h5>Yes</h5>
                 }
@@ -114,7 +114,7 @@
                 @Html.Raw("<pre>"+ Html.Encode(edition.Contents) + "</pre>")
             </div>
             <div class="form-group col-md-6">
-                @if (!edition.isPending)
+                @if (!edition.HasOrders)
                 {
                     <a class="btn btn-primary btn-xs delete" data-title="@edition.EditionTitle" data-url="@Url.Action("DeleteGameEdition", "GameEdition", new { id = edition.Id})" href="#manage-modal">delete</a>
                 }
