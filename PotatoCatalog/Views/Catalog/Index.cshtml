@@ -18,9 +18,20 @@
     </script>
 }
 
-<div class="col-md-offset-4 col-md-8">
-    @Html.PagedListPager(Model, page=>Url.Action("Index","Catalog",
-    new {page, pageSize = Model.PageSize}))
+<div style="margin-top: 15px; text-align: center">
+    @using (Html.BeginForm("Index", "Catalog", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString");<input type="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left: 5px;"/>
+        <div>
+            <b style="margin-right: 5px;">Search by</b>
+            @Html.RadioButton("searchBy", "Title", new { @checked = "checked" })<text>Title</text>
+            @Html.RadioButton("searchBy", "Tag")<text>Tag</text>
+        </div>
+    }
+</div>
+<div  style="text-align: center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Catalog",
+    new { page, pageSize = Model.PageSize }))
     Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Games
 </div>
 <div class="col-md-12"  style="margin: 10px;">

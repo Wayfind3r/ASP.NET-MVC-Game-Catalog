@@ -64,3 +64,8 @@ C:\Users\Pesho's 7th Sin\Documents\Visual Studio 2015\Projects\ASP NET Tests\Pot
 C:\Users\Pesho's 7th Sin\Documents\Visual Studio 2015\Projects\ASP NET Tests\PotatoCatalog\PotatoCatalog\obj\Debug\PotatoCatalog.Migrations.removedcroppedImagefromGame.resources
 C:\Users\Pesho's 7th Sin\Documents\Visual Studio 2015\Projects\ASP NET Tests\PotatoCatalog\PotatoCatalog\obj\Debug\PotatoCatalog.Migrations._121215AddedApprovedBooltoOrder.resources
 C:\Users\Pesho's 7th Sin\Documents\Visual Studio 2015\Projects\ASP NET Tests\PotatoCatalog\PotatoCatalog\obj\Debug\PotatoCatalog.Migrations._121215RemovedBoolAddedOrderStatusEnumtoOrder.resources
+C:\Users\Pesho's 7th Sin\Documents\Visual Studio 2015\Projects\ASP NET Tests\PotatoCatalog\PotatoCatalog\bin\PagedList.dll
+C:\Users\Pesho's 7th Sin\Documents\Visual Studio 2015\Projects\ASP NET Tests\PotatoCatalog\PotatoCatalog\bin\PagedList.Mvc.dll
+C:\Users\Pesho's 7th Sin\Documents\Visual Studio 2015\Projects\ASP NET Tests\PotatoCatalog\PotatoCatalog\bin\PagedList.xml
+C:\Users\Pesho's 7th Sin\Documents\Visual Studio 2015\Projects\ASP NET Tests\PotatoCatalog\PotatoCatalog\bin\PagedList.Mvc.xml
+C:\Users\Pesho's 7th Sin\Documents\Visual Studio 2015\Projects\ASP NET Tests\PotatoCatalog\PotatoCatalog\obj\Debug\PotatoCatalog.Migrations.fix.resources

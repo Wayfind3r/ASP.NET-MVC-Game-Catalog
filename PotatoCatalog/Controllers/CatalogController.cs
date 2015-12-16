@@ -18,9 +18,27 @@ namespace PotatoCatalog.Controllers
             gameServices = new GameServices();
         }
         // GET: Catalog
-        public ActionResult Index(int page =1, int pageSize = 9)
+        public ActionResult Index(int page =1, int pageSize = 9, string searchBy = null, string searchString = null)
         {
-            var list = gameServices.GetAllGameViewModels();
+            var list = new List<GameViewModel>();
+            if (String.IsNullOrEmpty(searchString))
+            {
+                list = gameServices.GetAllGameViewModels();
+            }
+            else
+            {
+                if (searchBy == "Title")
+                {
+                    list = gameServices.GetAllGameViewModelsWithTitle(searchString);
+                }
+                else
+                {
+                    if (searchBy == "Tag")
+                    {
+                        list = gameServices.GetAllGameViewModelsWithTag(searchString);
+                    }
+                }
+            }
             var model = new PagedList<GameViewModel>(list, page, pageSize);
             return View(model);
         }

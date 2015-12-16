@@ -114,8 +114,73 @@ namespace PotatoCatalog.Services
                 result = result.OrderBy(x => x.Title).ToList();
             }
             return result;
-        } 
-
+        }
+        public List<GameViewModel> GetAllGameViewModelsWithTag(string searchBy)
+        {
+            List<GameViewModel> result;
+            using (var db = new ApplicationDbContext())
+            {
+                var tagExists = db.Tags.Any(x => x.Name.Equals(searchBy, StringComparison.InvariantCultureIgnoreCase));
+                if (!tagExists)
+                {
+                    return new List<GameViewModel>();
+                }
+                    var tagId = db.Tags.FirstOrDefault(x => x.Name.Equals(searchBy, StringComparison.InvariantCultureIgnoreCase)).Id;
+                var gameIds = db.TagItems.Where(x => x.TagId == tagId).Select(x => x.GameId).ToList();
+                var iQueryableGames = from g in db.Games
+                                      where gameIds.Contains(g.Id)
+                                      select
+                                      new GameViewModel
+                                      {
+                                          Id = g.Id,
+                                          Title = g.Title,
+                                          Publisher = g.Publisher,
+                                          Developer = g.Developer,
+                                          Description = g.Description,
+                                          ReleaseDate = g.ReleaseDate,
+                                          ImagePath = g.ImgPath
+                                      };
+                result = iQueryableGames.ToList();
+                var tagServ = new TagServices();
+                foreach (var game in result)
+                {
+                    game.Tags = tagServ.GetTagItemViewModelsByGameID(game.Id);
+                }
+                //Initial order
+                result = result.OrderBy(x => x.Title).ToList();
+            }
+            return result;
+        }
+        public List<GameViewModel> GetAllGameViewModelsWithTitle(string searchBy)
+        {
+            List<GameViewModel> result;
+            var searchByToLower = searchBy.ToLower();
+            using (var db = new ApplicationDbContext())
+            {
+                var iQueryableGames = from g in db.Games
+                                      where g.Title.ToLower().Contains(searchByToLower)
+                                      select
+                                      new GameViewModel
+                                      {
+                                          Id = g.Id,
+                                          Title = g.Title,
+                                          Publisher = g.Publisher,
+                                          Developer = g.Developer,
+                                          Description = g.Description,
+                                          ReleaseDate = g.ReleaseDate,
+                                          ImagePath = g.ImgPath
+                                      };
+                result = iQueryableGames.ToList();
+                var tagServ = new TagServices();
+                foreach (var game in result)
+                {
+                    game.Tags = tagServ.GetTagItemViewModelsByGameID(game.Id);
+                }
+                //Initial order
+                result = result.OrderBy(x => x.Title).ToList();
+            }
+            return result;
+        }
         public void UpdateGameFromViewModel(GameViewModel model)
         {
             using (var db = new ApplicationDbContext())
