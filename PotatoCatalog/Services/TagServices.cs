@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Web.UI.WebControls;
 using PotatoCatalog.Models;
 
 namespace PotatoCatalog.Services
@@ -67,6 +69,50 @@ namespace PotatoCatalog.Services
             }
             return tagList;
         }
+
+        public List<TagViewModel> GetAllTagsWithInstanceCount()
+        {
+            List<TagViewModel> tagViewModels;
+            using (var db = new ApplicationDbContext())
+            {
+                var query = from t in db.Tags
+                    join i in db.TagItems on t.Id equals i.TagId
+                    group new {t, i} by new {t.Id, t.Name}
+                    into g
+                    select new TagViewModel
+                    {
+                        Id = g.Key.Id,
+                        Name = g.Key.Name,
+                        Instances = g.Count()
+                    };
+                //Default order
+                tagViewModels = query.OrderByDescending(x=>x.Instances).ToList();
+            }
+            return tagViewModels;
+        }
+
+        public List<TagViewModel> SearchAllTagsWithInstanceCount(string searchBy)
+        {
+            List<TagViewModel> tagViewModels;
+            var searchByToLower = searchBy.ToLower();
+            using (var db  =new ApplicationDbContext())
+            {
+                var query = from t in db.Tags
+                    where t.Name.ToLower().Contains(searchByToLower)
+                    join i in db.TagItems on t.Id equals i.TagId
+                    group new {t, i} by new {t.Id, t.Name}
+                    into g
+                    select new TagViewModel
+                    {
+                        Id = g.Key.Id,
+                        Name = g.Key.Name,
+                        Instances = g.Count()
+                    };
+                //Default order
+                tagViewModels = query.OrderByDescending(x=>x.Instances).ToList();
+            }
+            return tagViewModels;
+        } 
 
         public Tag GetTagById(int Id)
         {

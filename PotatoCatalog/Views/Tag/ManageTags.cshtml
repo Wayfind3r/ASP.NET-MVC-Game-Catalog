@@ -1,5 +1,6 @@
-﻿@using PotatoCatalog.Models
-@model Tag
+﻿@using PagedList.Mvc
+@using PotatoCatalog.Models
+@model PagedList.PagedList<PotatoCatalog.Models.TagViewModel>
 @{
     ViewBag.Title = "Manage Tags";
     ViewBag.Message = "Any changes to the tag table will reflect on the tagged items.";
@@ -14,7 +15,6 @@
             $(document).on('click', '.create', function(e) {
                 e.preventDefault();
                 var _self = $(this);
-                var tagId = _self.data('id');
                 $("#edit-modalLabel").text("Create a new Tag");
                 var dataUrl = _self.data('url');
 
@@ -41,8 +41,7 @@
             $(document).on('click', '.edit', function(e) {
                 e.preventDefault();
                 var _self = $(this);
-                var tagId = _self.data('id');
-                $("#edit-modalLabel").text("Edit Tag ID: " + tagId);
+                $("#edit-modalLabel").text("Edit Tag");
                 var dataUrl = _self.data('url');
 
                 $.ajax({
@@ -68,8 +67,7 @@
             $(document).on("click", ".delete", function(e) {
                 e.preventDefault();
                 var _self = $(this);
-                var tagId = _self.data("id");
-                $("#edit-modalLabel").text("Delete Tag ID: " + tagId);
+                $("#edit-modalLabel").text("Delete Tag");
                 var dataUrl = _self.data("url");
 
                 $.ajax({
@@ -90,34 +88,51 @@
         });
     </script>
 }
-
-<h2>@ViewBag.Title</h2>
-<h4>@ViewBag.Message</h4>
-<h4>@ViewBag.Message2</h4>
-<a class="btn btn-warning create" data-url="@Url.Action("CreateTag","Tag")" href="#manage-modal">Create a new Tag</a>
+<div style="text-align: center">
+    <h2>@ViewBag.Title</h2>
+    <h4>@ViewBag.Message</h4>
+    <h4>@ViewBag.Message2</h4>
+    <a class="btn btn-warning create" data-url="@Url.Action("CreateTag", "Tag")" href="#manage-modal">Create a new Tag</a>
+</div>
+<div style="margin-top: 15px; text-align: center">
+    @using (Html.BeginForm("ManageTags", "Tag", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString");<input type="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left: 5px;"/>
+    }
+</div>
+<hr/>
+<div class="col-md-12" style="text-align: center">
+    @Html.PagedListPager(Model, page => Url.Action("ManageTags","Tag",
+    new { page, pageSize = Model.PageSize}))
+    Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Tags
+</div>
 <table class="table table-striped table-hover ">
     <thead>
-        <tr>
-            <th>Name</th>
-        </tr>
+    <tr>
+        <th>Name</th>
+        <th>Instances</th>
+    </tr>
     <thead />
     <tbody>
-        @foreach (var tag in ViewBag.tagList)
+        @foreach (var tag in Model)
         {
             <tr>
                 <td>
                     @tag.Name
                 </td>
                 <td>
-                    <a class="btn btn-primary btn-xs delete" data-id="@tag.Id" data-url="@Url.Action("DeleteTag","Tag", new {Id=tag.Id})" href="#manage-modal">delete</a>
+                    @tag.Instances
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-xs delete" data-id="@tag.Id" data-url="@Url.Action("DeleteTag", "Tag", new {Id = tag.Id})" href="#manage-modal">delete</a>
 
-                    <a class="btn btn-primary btn-xs edit" data-url="@Url.Action("EditTag","Tag", new {Id=tag.Id})" href="#manage-modal" data-id="@tag.Id">edit</a>
+                    <a class="btn btn-primary btn-xs edit" data-url="@Url.Action("EditTag", "Tag", new {Id = tag.Id})" href="#manage-modal" data-id="@tag.Id">edit</a>
                 </td>
             </tr>
-        }
+            }
     </tbody>
 </table>
-<div class="modal fade col-md-offset-5 col-md-2" style="margin-top: 50px;" id="manage-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade col-md-offset-5 col-md-2" style="margin-top: 50px; text-align: center" id="manage-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

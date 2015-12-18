@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using PotatoCatalog.Models;
 using PotatoCatalog.Services;
 
@@ -18,11 +19,19 @@ namespace PotatoCatalog.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         //[ValidateAntiForgeryToken]
-        public ActionResult ManageTags()
+        public ActionResult ManageTags(int page = 1, int pageSize = 50, string searchString = null)
         {
-            List<Tag> model = tagServices.GetAllTagsList();
-            ViewBag.tagList = model;
-            return View();
+            var list = new List<TagViewModel>();
+            if (String.IsNullOrEmpty(searchString))
+            {
+                list = tagServices.GetAllTagsWithInstanceCount();
+            }
+            else
+            {
+                list = tagServices.SearchAllTagsWithInstanceCount(searchString);
+            }
+            var model = new PagedList<TagViewModel>(list,page,pageSize);
+            return View(model);
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]

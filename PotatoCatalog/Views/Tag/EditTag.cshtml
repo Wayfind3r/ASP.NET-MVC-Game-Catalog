@@ -3,10 +3,10 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(t => t.Id)
-    <div class="modal-body">
-        <div class="form-group">
-            @Html.LabelFor(t => t.Name, new {@class = "control-label"})
-            @Html.TextBoxFor(t => t.Name, new {@class = "form-control", id = "namebox"})
+    <div class="modal-body"  style = "text-align: center">
+        <div class="form-group" style = "text-align: center">
+            @Html.LabelFor(t => t.Name, new {@class = "control-label", @style = "text-align: center"})
+            @Html.TextBoxFor(t => t.Name, new {@class = "form-control", @style = "text-align: center", id = "namebox"})
             @Html.ValidationMessageFor(t => t.Name, "", new {@class = "text-danger"})
         </div>
     </div>

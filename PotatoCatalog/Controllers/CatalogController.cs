@@ -18,6 +18,7 @@ namespace PotatoCatalog.Controllers
             gameServices = new GameServices();
         }
         // GET: Catalog
+        [HttpGet]
         public ActionResult Index(int page =1, int pageSize = 9, string searchBy = null, string searchString = null)
         {
             var list = new List<GameViewModel>();

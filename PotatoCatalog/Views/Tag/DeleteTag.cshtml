@@ -1,8 +1,8 @@
 ﻿@model PotatoCatalog.Models.EditTagViewModel
 @using (Html.BeginForm("DeleteTag", "Tag", FormMethod.Post))
 {
-    <h5 class="col-md-offset-1">Are you sure you want to delete this tag?</h5>
-    <div>
+    <h5 class="col-md-offset-1" style="text-align: center">Are you sure you want to delete this tag?</h5>
+    <div  style="text-align: center">
         @Html.AntiForgeryToken()
         <div class="modal-body">
             <div class="form-group">
