@@ -1,5 +1,10 @@
-﻿
-<h5 class="col-md-offset-1">Games with editions in the shop cannot be deleted.</h5>
+﻿@model int
+<h5 style="text-align: center">You must first delete all editions of this game.</h5>
+<div style="text-align: center">
+    <a>
+        @Html.ActionLink("Edit Game Editions", "ManageGameEditions", "GameEdition", new {gameId = Model}, new {@class = "btn btn-primary", @style = "margin: 5px;"})
+    </a>
+</div>
 <div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using PotatoCatalog.Models;
 using PotatoCatalog.Services;
 
@@ -39,9 +41,32 @@ namespace PotatoCatalog.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult ManageGames()
+        public ActionResult ManageGames(int page=1, int pageSize = 20, string searchBy = null, string searchString = null)
         {
-            var model = gameServices.GetSimpleGamesList();
+            var list = new List<SimpleGameViewModel>();
+            if (String.IsNullOrEmpty(searchString))
+            {
+                list = gameServices.GetSimpleGamesList();
+            }
+            else
+            {
+                switch (searchBy)
+                {
+                    case "Title":
+                        list = gameServices.GetSimpleGamesListWithTitle(searchString);
+                        break;
+                    case "Publisher":
+                        list = gameServices.GetSimpleGamesListWithPublisher(searchString);
+                        break;
+                    case "Developer":
+                        list = gameServices.GetSimpleGamesListWithDeveloper(searchString);
+                        break;
+                    default:
+                        list = gameServices.GetSimpleGamesList();
+                        break;
+                }
+            }
+            var model = new PagedList<SimpleGameViewModel>(list, page, pageSize);
             return View(model);
         }
 
@@ -81,9 +106,13 @@ namespace PotatoCatalog.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult TryDeleteGame(int Id)
         {
+            if (gameServices.HasOrders(Id))
+            {
+                return RedirectToAction("HasOrders");
+            }
             if (gameServices.HasEditions(Id))
             {
-                return RedirectToAction("HasEditions");
+                return RedirectToAction("HasEditions", new {id = Id});
             }
             else
             {
@@ -115,11 +144,16 @@ namespace PotatoCatalog.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult HasEditions()
+        public ActionResult HasEditions(int id)
+        {
+            return PartialView(id);
+        }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult HasOrders()
         {
             return PartialView();
         }
-
         public ActionResult SingleGameView(int id)
         {
             var model = gameServices.GetCompleteGameViewModelById(id);

@@ -1,0 +1,10 @@
+﻿<h5 style="text-align: center">Games with orders cannot be deleted.</h5>
+<div style="text-align: center">
+     @Html.ActionLink("Pending Orders", "ManagePendingOrders", "Order", null, new { @class = "btn btn-primary", @style = "margin: 5px;" })
+    @Html.ActionLink("Order History","OrderHistory","Order", null, new {@class="btn btn-warning", @style = "margin: 5px;"})
+</div>
+<div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+    </div>
+</div>

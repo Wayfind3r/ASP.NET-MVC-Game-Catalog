@@ -181,6 +181,92 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
+        public List<SimpleGameViewModel> GetSimpleGamesListWithTitle(string searchString)
+        {
+            var searchStringToLower = searchString.ToLower();
+            List<SimpleGameViewModel> gamesList = new List<SimpleGameViewModel>();
+            using (var db = new ApplicationDbContext())
+            {
+                var result = from g in db.Games
+                             where g.Title.ToLower().Contains(searchStringToLower)
+                             select
+                                 new SimpleGameViewModel
+                                 {
+                                     Id = g.Id,
+                                     Developer = g.Developer,
+                                     Publisher = g.Publisher,
+                                     ReleaseDate = g.ReleaseDate,
+                                     Title = g.Title
+                                 };
+                gamesList = result.ToList();
+                gamesList.OrderBy(g => g.Title);
+            }
+            return gamesList;
+        }
+        public List<SimpleGameViewModel> GetSimpleGamesListWithDeveloper(string searchString)
+        {
+            var searchStringToLower = searchString.ToLower();
+            List<SimpleGameViewModel> gamesList = new List<SimpleGameViewModel>();
+            using (var db = new ApplicationDbContext())
+            {
+                var result = from g in db.Games
+                             where g.Developer.ToLower().Contains(searchStringToLower)
+                             select
+                                 new SimpleGameViewModel
+                                 {
+                                     Id = g.Id,
+                                     Developer = g.Developer,
+                                     Publisher = g.Publisher,
+                                     ReleaseDate = g.ReleaseDate,
+                                     Title = g.Title
+                                 };
+                gamesList = result.ToList();
+                gamesList.OrderBy(g => g.Title);
+            }
+            return gamesList;
+        }
+        public List<SimpleGameViewModel> GetSimpleGamesListWithPublisher(string searchString)
+        {
+            var searchStringToLower = searchString.ToLower();
+            List<SimpleGameViewModel> gamesList = new List<SimpleGameViewModel>();
+            using (var db = new ApplicationDbContext())
+            {
+                var result = from g in db.Games
+                             where g.Publisher.ToLower().Contains(searchStringToLower)
+                             select
+                                 new SimpleGameViewModel
+                                 {
+                                     Id = g.Id,
+                                     Developer = g.Developer,
+                                     Publisher = g.Publisher,
+                                     ReleaseDate = g.ReleaseDate,
+                                     Title = g.Title
+                                 };
+                gamesList = result.ToList();
+                gamesList.OrderBy(g => g.Title);
+            }
+            return gamesList;
+        }
+        public List<SimpleGameViewModel> GetSimpleGamesList()
+        {
+            List<SimpleGameViewModel> gamesList = new List<SimpleGameViewModel>();
+            using (var db = new ApplicationDbContext())
+            {
+                var result = from g in db.Games
+                             select
+                                 new SimpleGameViewModel
+                                 {
+                                     Id = g.Id,
+                                     Developer = g.Developer,
+                                     Publisher = g.Publisher,
+                                     ReleaseDate = g.ReleaseDate,
+                                     Title = g.Title
+                                 };
+                gamesList = result.ToList();
+                gamesList.OrderBy(g => g.Title);
+            }
+            return gamesList;
+        }
         public void UpdateGameFromViewModel(GameViewModel model)
         {
             using (var db = new ApplicationDbContext())
@@ -210,27 +296,6 @@ namespace PotatoCatalog.Services
             return gameList;
         }
 
-        public List<SimpleGameViewModel> GetSimpleGamesList()
-        {
-            List<SimpleGameViewModel> gamesList = new List<SimpleGameViewModel>();
-            using (var db = new ApplicationDbContext())
-            {
-                var result = from g in db.Games
-                             select
-                                 new SimpleGameViewModel
-                                 {
-                                     Id = g.Id,
-                                     Developer = g.Developer,
-                                     Publisher = g.Publisher,
-                                     ReleaseDate = g.ReleaseDate,
-                                     Title = g.Title
-                                 };
-                gamesList = result.ToList();
-                gamesList.OrderBy(g => g.Title);
-            }
-            return gamesList;
-        }
-
         public bool HasEditions(int Id)
         {
             bool hasEditions = true;
@@ -239,6 +304,16 @@ namespace PotatoCatalog.Services
                 hasEditions = db.GameEditions.Any(e => e.GameId == Id);
             }
             return hasEditions;
+        }
+
+        public bool HasOrders(int Id)
+        {
+            bool hasOrders = true;
+            using (var db = new ApplicationDbContext())
+            {
+                hasOrders = db.OrderItems.Any(o=>o.GameEdition.GameId == Id);
+            }
+            return hasOrders;
         }
 
         public bool TryDeleteGame(GameViewModel game)
