@@ -2,33 +2,34 @@
 @model LoginViewModel
 @{
     ViewBag.Title = "Log in";
+    ViewBag.Message = "This site uses ASP.Net MVC, bootstrap.js/jquery, Entity Framework, Identity Framework";
+    ViewBag.LogInInfo = "Use the Admin account master@potato.bg with password master1";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2 >@ViewBag.Title.</h2>
+<hr/>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Value = "master@potato.bg" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @value = "master1" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-left: 5px;">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="checkbox">
                             @Html.CheckBoxFor(m => m.RememberMe)
@@ -59,6 +60,24 @@
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
     </div>*@
+    <div class="col-md-6">
+        <div style="text-align: center">
+            <h3>@ViewBag.LogInInfo</h3>
+            <h4>@ViewBag.Message</h4>
+        </div>
+        <div>
+            <p>The Shop contains games, you can order any available game edition.(Collectors, etc.)</p>
+            <p>Games without editions can only be viewed.</p>
+            <p>Normal accounts can browse the Shop and place orders by spending their potatoes.</p>
+            <p>Admin accounts can:</p>
+            <p>Order History - View approved and rejected orders</p>
+            <p>Manage Orders - Approve or reject pending orders</p>
+            <p>Create Game - Create a new game to be added to the Shop</p>
+            <p>Manage Games - Browse a list of available games and edit or delete them</p>
+            <p>Manage Tags - View, edit, delete or merge tags</p>
+            <p>Manage Editions - Create or edit game editions, these are your options when creating new items to be sold in the shop</p>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

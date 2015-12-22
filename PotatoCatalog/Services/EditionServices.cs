@@ -71,16 +71,18 @@ namespace PotatoCatalog.Services
             List<EditionViewModel> edList = new List<EditionViewModel>();
             using (var db = new ApplicationDbContext())
             {
-                foreach (var edition in db.Editions)
-                {
-                    var ed = new EditionViewModel {Id = edition.Id, Name = edition.Name};
-                    edList.Add(ed);
-                }
-                foreach (var ed in edList)
-                {
-                    var hasGames = db.GameEditions.Any(x => x.EditionId == ed.Id);
-                    ed.hasGameEditions = hasGames;
-                }
+                var query = from e in db.Editions
+                    join g in db.GameEditions on e.Id equals g.EditionId
+                    group new {e, g} by new {e.Id, e.Name}
+                    into g
+                    select new EditionViewModel
+                    {
+                        Id = g.Key.Id,
+                        Name = g.Key.Name,
+                        Instances = g.Count()
+                    };
+                //Default order
+                edList = query.OrderByDescending(x => x.Instances).ToList();
             }
             return edList;
         }

@@ -43,7 +43,7 @@
 <div style="margin: 10px; text-align: center">
     @using (Html.BeginForm("ManageGames", "Game", FormMethod.Get))
     {
-        @Html.TextBox("SearchString");<input type="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left: 5px;"/>
+        @Html.TextBox("SearchString");<input type="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left: 5px; margin-bottom: 5px;"/>
         <div>
             <b style="margin-right: 5px;">Search by</b>
             @Html.RadioButton("searchBy", "Title", new {@checked = "checked"})<text>Title</text>

@@ -33,9 +33,11 @@
     </script>
 }
 
-<h2>@ViewBag.Title</h2>
-<h4>@ViewBag.Message</h4>
-@Html.ActionLink("Order History","OrderHistory","Order", new {@class = "btn btn-warning"})
+<div style="text-align: center">
+    <h2>@ViewBag.Title</h2>
+    <h4>@ViewBag.Message</h4>
+    @Html.ActionLink("Order History", "OrderHistory", "Order", new { @class = "btn btn-warning" })
+</div>
 <hr/>
 <table class="table table-striped table-hover ">
     <thead>

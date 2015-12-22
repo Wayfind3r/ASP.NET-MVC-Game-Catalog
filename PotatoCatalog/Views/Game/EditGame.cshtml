@@ -122,10 +122,7 @@
                 <div class="col-md-offset-1 col-md-10">
                     <h5>Acceptable image formats: .jpg, .gif, .jpeg or .png</h5>
                     <h5>Image aspect ratio should be ~16:10 (within 9% deviation)</h5>
-                    <h5>Maximum image width: 1200</h5>
-                    <h5>Minimum image width: 280</h5>
-                    <h5>Maximum image height: 750</h5>
-                    <h5>Minimum image height: 175</h5>
+                    <h5>Dimensions: max 1200x750 min 280x175</h5>
                     <input class="btn btn-primary  btn-warning" type="submit" value="Save changes" />
                 </div>
             </div>
@@ -134,7 +131,7 @@
     <div class="col-md-6">
         @Html.ActionLink("Manage Editions", "ManageGameEditions",
                                  "GameEdition", new { gameId = Model.Id},
-                                 new { @class = "btn btn-info manageGameEditions", @style = "margin: 10px;" })
+                                 new { @class = "btn btn-info manageGameEditions", @style = "margin-bottom: 10px;" })
         @if (string.IsNullOrEmpty(Model.ImagePath))
         {
             <img class="thumbnail" src="~/images/noImage.jpg" alt="NoImage" style="width: 80%;"/>

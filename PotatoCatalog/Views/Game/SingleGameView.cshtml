@@ -42,40 +42,38 @@
             <dd>
                 @Html.DisplayFor(model => model.Description)
             </dd>
-        </dl>
-        <div class="" id="editions">
-    <div style="font-weight: bold; color: black; margin: 5px;">
-        @Html.DisplayNameFor(model => model.Editions):
-    </div>
-    @foreach (var edition in Model.Editions)
+                <dt>
+                    @Html.DisplayNameFor(model => model.Editions)
+                </dt>
+                @foreach (var edition in Model.Editions)
+                {
+                    using (Html.BeginForm("AddToCart", "Cart"))
+                    {
+                        <dd class="col-md-12 dropdown" style="margin: 3px;">
+                            @Html.Hidden("gameEditionId", edition.Id)
+                            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                            <input type="submit" class="btn btn-primary" value="Add to cart" />
+                            <a class="dropdown-toggle" data-toggle="dropdown" style="margin: 5px">
+                                <span class="caret"></span>
+                                @edition.EditionTitle
+                                @*Place add to cart logic here*@
+                            </a>
+                            <a style="font-weight: bold; color: black;">
+                                Price in Potatoes: @edition.PriceInPotatoes
+                            </a>
+                            <ul class="dropdown-menu editionContents ">
+                                <li>
+                                    <p class="td" style="margin: 7px">@edition.Contents</p>
+                                </li>
+                            </ul>
+                        </dd>
+                    }
+                }
+            @if (this.User.IsInRole("Admin"))
             {
-        using (Html.BeginForm("AddToCart", "Cart"))
-        {
-            <div class="col-md-12 dropdown" style="margin: 3px;">
-                @Html.Hidden("gameEditionId", edition.Id)
-                @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-                <input type="submit" class="btn btn-primary" value="Add to cart"/>
-                <a class="dropdown-toggle" data-toggle="dropdown" style="margin: 5px">
-                    <span class="caret"></span>
-                    @edition.EditionTitle
-                    @*Place add to cart logic here*@
-                </a>
-                <a style="font-weight: bold; color: black;">
-                    Price in Potatoes: @edition.PriceInPotatoes
-                </a>
-                <ul class="dropdown-menu editionContents ">
-                    <li>
-                        <p class="td" style="margin: 7px">@edition.Contents</p>
-                    </li>
-                </ul>
-            </div>
-        }
-    }
-        </div>
-        @if (this.User.IsInRole("Admin"))
-        {
-            <a>@Html.ActionLink("Edit Game", "EditGame", "Game", new {id = Model.Id}, new {@class = "btn btn-primary edit", @style ="margin: 5px;"})</a>
-        }
+                <dt>@Html.ActionLink("Edit Game", "EditGame", "Game", new { id = Model.Id }, new { @class = "btn btn-primary edit", @style = "margin: 5px;" })</dt>
+            }
+        </dl>
     </div>
     <div class="col-md-6">
         @if (string.IsNullOrEmpty(Model.ImagePath))
@@ -93,8 +91,7 @@
             </a>
             @foreach (var tag in Model.Tags)
             {
-                //Place search by tag logic here
-                <div class="btn btn-primary btn-xs Tag" style="margin: 3px;">@tag.Name</div>
+                @Html.ActionLink(tag.Name, "Index", "Catalog", new { searchBy = "Tag", searchString = tag.Name }, new { @class = "btn btn-primary btn-xs Tag", @style = "margin: 3px;" })
             }
         </div>
     </div>

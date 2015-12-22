@@ -21,7 +21,7 @@
 <div style="margin-top: 15px; text-align: center">
     @using (Html.BeginForm("Index", "Catalog", FormMethod.Get))
     {
-        @Html.TextBox("SearchString");<input type="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left: 5px;"/>
+        @Html.TextBox("SearchString");<input type="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left: 5px; margin-bottom: 5px;"/>
         <div>
             <b style="margin-right: 5px;">Search by</b>
             @Html.RadioButton("searchBy", "Title", new { @checked = "checked" })<text>Title</text>
@@ -37,19 +37,19 @@
 <div class="col-md-12"  style="margin: 10px;">
     @foreach (var item in Model)
     {
-        <div data-id="@item.Id" class="col-md-4 gamebox">
-            <div class="text-center" style="margin: 10px;">
+        <div data-id="@item.Id" class="col-md-4" style="height: 280px;">
+            <div class="text-center gamebox" style="margin: 10px;">
                 <a class="col-md-12 imageAndText" href="@Url.Action("SingleGameView", "Game", new {id = item.Id})">
-                    <h4 class="txt" style="margin-top: 10px; margin-left: 30px; font-weight: bolder; text-shadow: 2px 2px #fefefe; color: #000000;">@item.Title</h4>
+                    <h4 class="txt" style="margin-top: 10px; margin-left: 30px; font-weight: bolder; text-shadow: 0 0 15px #000000; color: #f8f8f8; z-index: 2; position: absolute">@item.Title</h4>
                     @if (string.IsNullOrEmpty(item.ImagePath))
                     {
-                        <img src="~/images/noImage.jpg" alt="NoImage" class="img-responsive" style="outline: 1px solid orange; width: 100%"/>
+                        <img src="~/images/noImage.jpg" alt="NoImage" class="img-responsive" style="outline: 1px solid orange; width: 100%; z-index: 1; position: relative"/>
                     }
                     else
                     {
-                        <img src="@Url.Content(item.ImagePath)" alt="GameImage" class="img-responsive" style="outline: 1px solid orange;"/>
+                        <img src="@Url.Content(item.ImagePath)" alt="GameImage" class="img-responsive" style="outline: 1px solid orange; z-index: 1; position: relative"/>
                     }
-                    <div class="gameinfo" style="outline: 1px solid orange; display: none;">
+                    <div class="gameinfo" style="outline: 1px solid orange; background-color: #fefefe; display: none; z-index: 50; position: relative">
                         <div style="color: black">
                             <div>
                                 @Html.LabelFor(modelItem => item.Publisher)
@@ -60,18 +60,17 @@
                                 @Html.DisplayFor(modelItem => item.Developer)
                             </div>
                         </div>
-                        <div class="description col-md-12" style="color: black">
+                        <div class="description col-md-12" style="color: black; background-color: #fefefe">
                             @item.Description
                         </div>
                     </div>
                 </a>
-                <div class="tagcloud col-md-12">
-                    @foreach (var tag in item.Tags)
-                    {
-                        //Place search by tag logic here
-                        <div class="btn btn-primary btn-xs Tag" style="margin: 3px;" href="@Url.Action("SearchByTag", "Catalog", new {tagId = item.Id})">@tag.Name</div>
-                    }
-                </div>
+            </div>
+            <div class="tagcloud col-md-12" style="text-align: center">
+                @foreach (var tag in item.Tags)
+                {
+                    @Html.ActionLink(tag.Name, "Index", "Catalog", new { searchBy = "Tag", searchString = tag.Name}, new { @class = "btn btn-primary btn-xs Tag", @style = "margin: 3px;" })
+                }
             </div>
         </div>
     }

@@ -29,6 +29,7 @@ namespace PotatoCatalog.Services
                     var order = new Order
                     {
                         Address = address.Address,
+                        ///////////////////////
                         PriceInPotatoes = cart.ComputeTotalValue(),
                         UserId = userId,
                         OrderStatus = OrderStatus.Pending 
