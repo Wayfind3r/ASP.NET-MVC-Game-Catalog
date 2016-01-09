@@ -13,6 +13,13 @@ namespace PotatoCatalog.Services
 {
     public class OrderServices
     {
+        /// <summary>
+        /// Try to place an Order
+        /// Return false if User.Potatoes are insufficient
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public bool TryProcessOrder(Cart cart, AddressViewModel address)
         {
             using (var db = new ApplicationDbContext())
@@ -29,7 +36,6 @@ namespace PotatoCatalog.Services
                     var order = new Order
                     {
                         Address = address.Address,
-                        ///////////////////////
                         PriceInPotatoes = cart.ComputeTotalValue(),
                         UserId = userId,
                         OrderStatus = OrderStatus.Pending 
@@ -53,7 +59,8 @@ namespace PotatoCatalog.Services
                 }
             }
         }
-
+        //Get View Models for all orders
+        //Currently Unused, because there are no views that manage all orders
         public List<OrderViewModel> GetOrderViewModelList()
         {
             var result = new List<OrderViewModel>();
@@ -70,7 +77,7 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
-
+        //Get Order View models for a specific user
         public List<OrderViewModel> GetOrderViewModelListForUser(int id)
         {
             var result = new List<OrderViewModel>();
@@ -86,6 +93,7 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
+        //Get Order View Model list for all Pending Orders
         public List<OrderViewModel> GetPendingOrderViewModelList()
         {
             var result = new List<OrderViewModel>();
@@ -102,7 +110,7 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
-
+        //Get Order View Model list for all Processed (not Pending) Orders
         public List<OrderViewModel> GetNotPendingOrderViewModelList()
         {
             var result = new List<OrderViewModel>();
@@ -122,6 +130,7 @@ namespace PotatoCatalog.Services
             }
             return result;
         } 
+        //Change the status of a pending Order
         public void ChangePendingOrderStatus(int Id, OrderStatus orderStatus)
         {
             if (orderStatus== OrderStatus.Pending)
@@ -143,7 +152,7 @@ namespace PotatoCatalog.Services
             }
         }
 
-        
+        //Currently no views delete Orders
             public void DeleteOrder(int orderID)
             {
                 using (var db = new ApplicationDbContext())

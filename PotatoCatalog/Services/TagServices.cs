@@ -9,13 +9,18 @@ namespace PotatoCatalog.Services
 {
     public class TagServices
     {
-
-        public List<TagItemViewModel> GetTagItemViewModelsByGameID(int Id)
+        /// <summary>
+        /// Get tag View Model list by gameId
+        /// Used in all Views displaying tag clouds
+        /// </summary>
+        /// <param name="gameId">gameId</param>
+        /// <returns></returns>
+        public List<TagItemViewModel> GetTagItemViewModelsByGameID(int gameId)
         {
             List<TagItemViewModel> tagItemList = new List<TagItemViewModel>();
             using (var db = new ApplicationDbContext())
             {
-                List<TagItem> dbTagItems = db.TagItems.Where(t => t.GameId == Id).ToList();
+                List<TagItem> dbTagItems = db.TagItems.Where(t => t.GameId == gameId).ToList();
                 var dbTags = from tagItem in dbTagItems
                     join tag in db.Tags
                         on tagItem.TagId equals tag.Id
@@ -27,6 +32,11 @@ namespace PotatoCatalog.Services
             }
             return tagItemList;
         }
+        /// <summary>
+        /// Create a new tag with value
+        /// If it doesn't exist
+        /// </summary>
+        /// <param name="newTag"></param>
         public void CreateTag(Tag newTag)
         {
             using (var db = new ApplicationDbContext())
@@ -40,7 +50,7 @@ namespace PotatoCatalog.Services
                 }
             }
         }
-
+        //Delete tag by Id
         public void DeleteTag(int Id)
         {
             using (var db = new ApplicationDbContext())
@@ -59,7 +69,7 @@ namespace PotatoCatalog.Services
                 }
             }
         }
-
+        //Get all tags
         public List<Tag> GetAllTagsList()
         {
             List<Tag> tagList;
@@ -69,7 +79,7 @@ namespace PotatoCatalog.Services
             }
             return tagList;
         }
-
+        //Get a list of all tags including Instance count for each tag
         public List<TagViewModel> GetAllTagsWithInstanceCount()
         {
             List<TagViewModel> tagViewModels;
@@ -90,7 +100,12 @@ namespace PotatoCatalog.Services
             }
             return tagViewModels;
         }
-
+        /// <summary>
+        /// Get a list of all tags including Instance count for each tag
+        /// Search by tag string value
+        /// </summary>
+        /// <param name="searchBy">tag.Name.Contains</param>
+        /// <returns></returns>
         public List<TagViewModel> SearchAllTagsWithInstanceCount(string searchBy)
         {
             List<TagViewModel> tagViewModels;
@@ -113,7 +128,7 @@ namespace PotatoCatalog.Services
             }
             return tagViewModels;
         } 
-
+        //Get tag by Id
         public Tag GetTagById(int Id)
         {
             Tag result;
@@ -123,7 +138,7 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
-
+        //Get tagId by tag value .Equals
         public int GetTagIDByValue(string value)
         {
             int Id = 0;
@@ -137,7 +152,7 @@ namespace PotatoCatalog.Services
         }
         /// <summary>
         /// Check if this tag already exists
-        /// if it does update all tagItems with the new tagID and delete the old tag
+        /// if it does update(merge) all tagItems with the new tagID and delete the old tag
         /// if not just update the tag value
         /// </summary>
         /// <param name="Id"></param>

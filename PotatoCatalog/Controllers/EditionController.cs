@@ -45,6 +45,7 @@ namespace PotatoCatalog.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
+        //Available only if there are no GameEditions using this Edition
         public ActionResult DeleteEdition(Edition model)
         {
             editionServices.DeleteEdition(model.Id);

@@ -7,7 +7,7 @@ namespace PotatoCatalog.Services
 {
     public class GameServices
     {
-        //No Image services yet
+        //Preliminary Create Game, no image upload
         public int CreateGame(GameViewModel model)
         {
             int iD = 0;
@@ -29,7 +29,7 @@ namespace PotatoCatalog.Services
             }
             return iD;
         }
-
+        //Delete game by Id <unused atm>
         public void DeleteGame(int Id)
         {
             using (var db = new ApplicationDbContext())
@@ -39,7 +39,7 @@ namespace PotatoCatalog.Services
                 db.SaveChanges();
             }
         }
-
+        //Get game View Model by Id
         public GameViewModel GetGameViewModelById(int Id)
         {
             GameViewModel game;
@@ -62,6 +62,7 @@ namespace PotatoCatalog.Services
             }
             return game;
         }
+        //Get Complete Game View Model for single Game view
         public CompleteGameViewModel GetCompleteGameViewModelById(int Id)
         {
             CompleteGameViewModel game;
@@ -86,7 +87,7 @@ namespace PotatoCatalog.Services
             }
             return game;
         }
-
+        //Get View Models for all Games to populate the Catalog Index
         public List<GameViewModel> GetAllGameViewModels()
         {
             List<GameViewModel> result;
@@ -115,18 +116,29 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
+        /// <summary>
+        /// Get View Models for all Games with specific tag to populate the Catalog Index
+        /// </summary>
+        /// <param name="searchBy">tag value to search for in tag Names (Contains)</param>
+        /// <returns></returns>
         public List<GameViewModel> GetAllGameViewModelsWithTag(string searchBy)
         {
             List<GameViewModel> result;
             using (var db = new ApplicationDbContext())
             {
-                var tagExists = db.Tags.Any(x => x.Name.Equals(searchBy, StringComparison.InvariantCultureIgnoreCase));
+                var searchByToLower = searchBy.ToLowerInvariant();
+                var tagExists = db.Tags.Any(x => x.Name.Contains(searchByToLower));
                 if (!tagExists)
                 {
                     return new List<GameViewModel>();
                 }
-                    var tagId = db.Tags.FirstOrDefault(x => x.Name.Equals(searchBy, StringComparison.InvariantCultureIgnoreCase)).Id;
-                var gameIds = db.TagItems.Where(x => x.TagId == tagId).Select(x => x.GameId).ToList();
+                List<int> tagIdList;
+                var iQueryableTags = from t in db.Tags
+                                      where t.Name.ToLower().Contains(searchByToLower)
+                                      select
+                                      t.Id;
+                tagIdList = iQueryableTags.ToList();
+                var gameIds = db.TagItems.Where(x => tagIdList.Contains(x.TagId)).Select(x => x.GameId).ToList();
                 var iQueryableGames = from g in db.Games
                                       where gameIds.Contains(g.Id)
                                       select
@@ -151,6 +163,11 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
+        /// <summary>
+        /// Get View Modelsfor all Games with title containing searchBy to populate the Catalog Index
+        /// </summary>
+        /// <param name="searchBy">String to search for in game titles</param>
+        /// <returns></returns>
         public List<GameViewModel> GetAllGameViewModelsWithTitle(string searchBy)
         {
             List<GameViewModel> result;
@@ -181,6 +198,11 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
+        /// <summary>
+        /// Populate Manage Games table with Simple Game View Models search by Title
+        /// </summary>
+        /// <param name="searchString">string to search for in game titles</param>
+        /// <returns></returns>
         public List<SimpleGameViewModel> GetSimpleGamesListWithTitle(string searchString)
         {
             var searchStringToLower = searchString.ToLower();
@@ -203,6 +225,11 @@ namespace PotatoCatalog.Services
             }
             return gamesList;
         }
+        /// <summary>
+        /// Populate Manage Games table with Simple Game View Models search by Developer
+        /// </summary>
+        /// <param name="searchString">string to search for in Game.Developer</param>
+        /// <returns></returns>
         public List<SimpleGameViewModel> GetSimpleGamesListWithDeveloper(string searchString)
         {
             var searchStringToLower = searchString.ToLower();
@@ -225,6 +252,11 @@ namespace PotatoCatalog.Services
             }
             return gamesList;
         }
+        /// <summary>
+        /// Populate Manage Games table with Simple Game View Models search by Publisher
+        /// </summary>
+        /// <param name="searchString">search string to be contained in Game.Publisher</param>
+        /// <returns></returns>
         public List<SimpleGameViewModel> GetSimpleGamesListWithPublisher(string searchString)
         {
             var searchStringToLower = searchString.ToLower();
@@ -247,6 +279,11 @@ namespace PotatoCatalog.Services
             }
             return gamesList;
         }
+        /// <summary>
+        /// Populate Manage Games table with Simple Game View Models
+        /// In case of empty search string
+        /// </summary>
+        /// <returns></returns>
         public List<SimpleGameViewModel> GetSimpleGamesList()
         {
             List<SimpleGameViewModel> gamesList = new List<SimpleGameViewModel>();
@@ -267,6 +304,7 @@ namespace PotatoCatalog.Services
             }
             return gamesList;
         }
+        //Update Game from View Model, including image path
         public void UpdateGameFromViewModel(GameViewModel model)
         {
             using (var db = new ApplicationDbContext())
@@ -285,17 +323,7 @@ namespace PotatoCatalog.Services
                 db.SaveChanges();
             }
         }
-
-        public List<Game> GetGamesList()
-        {
-            List<Game> gameList;
-            using (var db = new ApplicationDbContext())
-            {
-                gameList = db.Games.AsEnumerable().ToList();
-            }
-            return gameList;
-        }
-
+        //Check if Game has any Editions
         public bool HasEditions(int Id)
         {
             bool hasEditions = true;
@@ -305,7 +333,7 @@ namespace PotatoCatalog.Services
             }
             return hasEditions;
         }
-
+        //Check if Game has any Orders, regardless of Order status
         public bool HasOrders(int Id)
         {
             bool hasOrders = true;
@@ -315,14 +343,14 @@ namespace PotatoCatalog.Services
             }
             return hasOrders;
         }
-
+        //Try to delete Game and return false if the game has editions
+        //We do not check for Orders, because it is the Game Editions that are ordered
         public bool TryDeleteGame(GameViewModel game)
         {
             bool isDeleted = true;
             using (var db = new ApplicationDbContext())
             {
                 var hasEditions = db.GameEditions.Any(e => e.GameId == game.Id);
-                //var isOrdered = db.OrderItems.Any(o => o.GameEdition.GameId == game.Id);
                 if (hasEditions)
                 {
                     isDeleted = false;
@@ -341,7 +369,7 @@ namespace PotatoCatalog.Services
             }
                 return isDeleted;
         }
-
+        //Get Game Title by Id
         public string GetGameTitle(int Id)
         {
             string title;

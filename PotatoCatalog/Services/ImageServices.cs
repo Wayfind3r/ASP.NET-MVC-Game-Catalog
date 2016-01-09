@@ -12,7 +12,7 @@ namespace PotatoCatalog.Services
     {
 
         public const int ImageMinimumBytes = 512;
-
+        //Validate posted Image
         public bool ValidateImage(HttpPostedFileBase postedFile)
         {
             if (postedFile == null)
@@ -85,6 +85,7 @@ namespace PotatoCatalog.Services
 
         /// <summary>
         /// Resize the image to the specified width and height.
+        /// Unused atm
         /// </summary>
         /// <param name="image">The image to resize.</param>
         /// <param name="width">The width to resize to.</param>
@@ -114,25 +115,5 @@ namespace PotatoCatalog.Services
 
             return destImage;
         }
-        //public string GetAndSaveCroppedImage(int Id, string physicalPath)
-        //{
-        //    Rectangle cropRect = new Rectangle {Width = 140, Height = 280};
-        //    Image targetImage = Image.FromFile(physicalPath);
-        //    double ratio = (double)targetImage.Width / (double)targetImage.Height;
-        //    int trueWidth = Convert.ToInt32(280*ratio);
-        //    Bitmap src = ResizeImage(targetImage, trueWidth , 280);
-        //    Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
-
-        //    using (Graphics g = Graphics.FromImage(target))
-        //    {
-        //        g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height),
-        //                         cropRect,
-        //                         GraphicsUnit.Pixel);
-        //    }
-        //    string path = "~/images/cropped" + Id + ".jpeg";
-        //    string truePath = System.Web.Hosting.HostingEnvironment.MapPath(path);
-        //    target.Save(truePath,System.Drawing.Imaging.ImageFormat.Jpeg);
-        //    return path;
-        //}
     }
 }

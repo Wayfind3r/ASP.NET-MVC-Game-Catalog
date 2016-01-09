@@ -51,7 +51,7 @@ namespace PotatoCatalog.Services
                 db.SaveChanges();
             }
         }
-
+        //Update edition name by Id
         public void EditEdition(int Id, string newValue)
         {
             using (var db = new ApplicationDbContext())
@@ -65,7 +65,7 @@ namespace PotatoCatalog.Services
                 }
             }
         }
-
+        //Used for Manage Editions View
         public List<EditionViewModel> GetEditionViewModelList()
         {
             List<EditionViewModel> edList = new List<EditionViewModel>();
@@ -86,7 +86,7 @@ namespace PotatoCatalog.Services
             }
             return edList;
         }
-
+        //Get Edition by Id
         public Edition GetEdition(int Id)
         {
             Edition result;
@@ -96,7 +96,7 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
-
+        //Get SelectList to populate dropdown when creating new Game Editions
         public SelectList GetEditionsSelectList()
         {
             var list = new List<SelectListItem>();

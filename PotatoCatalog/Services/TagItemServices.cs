@@ -5,6 +5,12 @@ namespace PotatoCatalog.Services
 {
     public class TagItemServices
     {
+        /// <summary>
+        /// Create a new tag Item with specific gameId and tagId
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
         public int CreateTagItem(int gameId, int tagId)
         {
             int Id;
@@ -18,19 +24,11 @@ namespace PotatoCatalog.Services
             }
             return Id;
         }
-
-        public TagItemViewModel GetTagItemViewModelByID(int Id)
-        {
-            TagItemViewModel tagItemView = new TagItemViewModel();
-            using (var db = new ApplicationDbContext())
-            {
-                TagItem targetTagItem = db.TagItems.FirstOrDefault(x=>x.Id==Id);
-                tagItemView.Id = targetTagItem.Id;
-                var tag = db.Tags.FirstOrDefault(t=>t.Id == targetTagItem.TagId);
-                tagItemView.Name = tag.Name;
-            }
-            return tagItemView;
-        }
+        /// <summary>
+        /// Delete tag Item by gameId and tagId
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <param name="tagId"></param>
         public void DeleteTagItem(int gameId, int tagId)
         {
             using (var db = new ApplicationDbContext())

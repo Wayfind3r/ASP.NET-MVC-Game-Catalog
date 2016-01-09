@@ -6,6 +6,7 @@ namespace PotatoCatalog.Services
 {
     public class GameEditionServices
     {
+        //Simple create Game Edition
         public void CreateGameEdition(int gameId, int editionId, decimal price, string contents)
         {
             using (var db = new ApplicationDbContext())
@@ -21,7 +22,7 @@ namespace PotatoCatalog.Services
                 db.SaveChanges();
             }
         }
-
+        //Get Game Edition view model used in Cart and Order history
         public GameEditionCartViewModel GetGameEditionCartViewModel(int id)
         {
             var result = new GameEditionCartViewModel();
@@ -36,7 +37,7 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
-
+        //Delete Game Edition by Id
         public void DeleteGameEdition(int id)
         {
             using (var db = new ApplicationDbContext())
@@ -46,7 +47,7 @@ namespace PotatoCatalog.Services
                 db.SaveChanges();
             }
         }
-
+        //Update Game Edition from model
         public void UpdateFromModel(GameEditionViewModel model)
         {
             using (var db = new ApplicationDbContext())
@@ -57,6 +58,7 @@ namespace PotatoCatalog.Services
                 db.SaveChanges();
             }
         }
+        //Get Game Editions by Game Id
         public List<GameEditionViewModel> GetGameEditions(int gameId)
         {
             var result = new List<GameEditionViewModel>();
@@ -84,7 +86,7 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
-
+        //Get Game Edition by Id
         public GameEditionViewModel GetGameEditionByID(int id)
         {
             var result = new GameEditionViewModel();

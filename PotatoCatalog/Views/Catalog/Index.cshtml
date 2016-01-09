@@ -34,16 +34,16 @@
     new { page, pageSize = Model.PageSize }))
     Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Games
 </div>
-<div class="col-md-12"  style="margin: 10px;">
+<div class="col-md-12 col-xs-12"  style="margin: 10px;">
     @foreach (var item in Model)
     {
-        <div data-id="@item.Id" class="col-md-4" style="height: 280px;">
+        <div data-id="@item.Id" class="col-md-4 col-sm-6 col-xs-12" style="height: 280px; max-width: 400px;">
             <div class="text-center gamebox" style="margin: 10px;">
-                <a class="col-md-12 imageAndText" href="@Url.Action("SingleGameView", "Game", new {id = item.Id})">
+                <a class="col-md-12 col-xs-12 imageAndText" style="text-align: center; min-width: 260px;" href="@Url.Action("SingleGameView", "Game", new {id = item.Id})">
                     <h4 class="txt" style="margin-top: 10px; margin-left: 30px; font-weight: bolder; text-shadow: 0 0 15px #000000; color: #f8f8f8; z-index: 2; position: absolute">@item.Title</h4>
                     @if (string.IsNullOrEmpty(item.ImagePath))
                     {
-                        <img src="~/images/noImage.jpg" alt="NoImage" class="img-responsive" style="outline: 1px solid orange; width: 100%; z-index: 1; position: relative"/>
+                        <img src="~/images/noImage.jpg" alt="NoImage" class="img-responsive" style="outline: 1px solid orange; max-height: 200px;width: 100%; z-index: 1; position: relative"/>
                     }
                     else
                     {

@@ -9,6 +9,7 @@ namespace PotatoCatalog.Services
 {
     public class UserServices
     {
+        //Get current potatoes to be displayed on the layout
         public Potatoes GetCurrentPotatoes()
         {
             var userId = Convert.ToInt32(System.Web.HttpContext.Current.User.Identity.GetUserId());
