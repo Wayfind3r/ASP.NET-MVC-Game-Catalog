@@ -51,10 +51,15 @@ textarea {
     outline: none;
 }
 
+    .navbar .dropdown-menu a {
+    color: black;
+}
+
 .dropdown:hover .dropdown-menu {
     position: absolute;
     display: block;
 }
+
  .editionContents {
     left: 5%;
     margin-top: -5px;

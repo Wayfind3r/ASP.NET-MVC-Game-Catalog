@@ -132,12 +132,7 @@ namespace PotatoCatalog.Services
                 {
                     return new List<GameViewModel>();
                 }
-                List<int> tagIdList;
-                var iQueryableTags = from t in db.Tags
-                                      where t.Name.ToLower().Contains(searchByToLower)
-                                      select
-                                      t.Id;
-                tagIdList = iQueryableTags.ToList();
+                List<int> tagIdList = db.Tags.Where(t => t.Name.ToLower().Contains(searchByToLower)).Select(t => t.Id).ToList();
                 var gameIds = db.TagItems.Where(x => tagIdList.Contains(x.TagId)).Select(x => x.GameId).ToList();
                 var iQueryableGames = from g in db.Games
                                       where gameIds.Contains(g.Id)

@@ -8,9 +8,10 @@
         <ul class="nav navbar-nav navbar-right">
             <li>@Html.Action("Potatoes", "Cart")</li>
             <li>@Html.Action("Summary", "Cart")</li>
-            <li>
+            <li><a style="margin-left: 10px;">Hello @User.Identity.GetUserName() !</a></li>
+            @*<li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})
-            </li>
+            </li>*@
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     }

@@ -65,7 +65,7 @@ namespace PotatoCatalog.Services
                 }
             }
         }
-        //Used for Manage Editions View
+        //Used by Manage Editions View
         public List<EditionViewModel> GetEditionViewModelList()
         {
             List<EditionViewModel> edList = new List<EditionViewModel>();
