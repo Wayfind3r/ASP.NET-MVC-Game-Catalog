@@ -115,9 +115,9 @@
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-            @Html.LabelFor(model => model.ImagePath, new { @class = "col-md-2 control-label" })
-            <input class="btn btn-default btn-warning" name="file" type="file" id="file" />
+            <button class="btn btn-danger">Image Upload disabled for Azure</button>
+            @*@Html.LabelFor(model => model.ImagePath, new { @class = "col-md-2 control-label" })
+            <input class="btn btn-default btn-warning" name="file" type="file" id="file" />*@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <h5>Acceptable image formats: .jpg, .gif, .jpeg or .png</h5>
@@ -134,7 +134,7 @@
                                  new { @class = "btn btn-info manageGameEditions", @style = "margin-bottom: 10px;" })
         @if (string.IsNullOrEmpty(Model.ImagePath))
         {
-            <img class="thumbnail" src="~/images/noImage.jpg" alt="NoImage" style="width: 80%;"/>
+            <img class="thumbnail" src="http://i.imgur.com/kuMCPit.jpg?1" alt="NoImage" style="width: 80%;"/>
         }
         else
         {

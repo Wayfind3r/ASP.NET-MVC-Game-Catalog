@@ -146,6 +146,7 @@
     <Compile Include="Entities\Edition.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\GameEdition.cs" />
+    <Compile Include="Entities\Image.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderItem.cs" />
     <Compile Include="Entities\TagItem.cs" />
@@ -153,29 +154,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511251908458_Initial.cs" />
-    <Compile Include="Migrations\201511251908458_Initial.Designer.cs">
-      <DependentUpon>201511251908458_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201511301908497_added-imagepath-toGame.cs" />
-    <Compile Include="Migrations\201511301908497_added-imagepath-toGame.Designer.cs">
-      <DependentUpon>201511301908497_added-imagepath-toGame.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512011146066_added-croppedImagePath-toGame.cs" />
-    <Compile Include="Migrations\201512011146066_added-croppedImagePath-toGame.Designer.cs">
-      <DependentUpon>201512011146066_added-croppedImagePath-toGame.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512011903429_removed-croppedImage-fromGame.cs" />
-    <Compile Include="Migrations\201512011903429_removed-croppedImage-fromGame.Designer.cs">
-      <DependentUpon>201512011903429_removed-croppedImage-fromGame.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512121731588_12-12-15-AddedApprovedBool-toOrder.cs" />
-    <Compile Include="Migrations\201512121731588_12-12-15-AddedApprovedBool-toOrder.Designer.cs">
-      <DependentUpon>201512121731588_12-12-15-AddedApprovedBool-toOrder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.cs" />
-    <Compile Include="Migrations\201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.Designer.cs">
-      <DependentUpon>201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.cs</DependentUpon>
+    <Compile Include="Migrations\201601120126286_Initial.cs" />
+    <Compile Include="Migrations\201601120126286_Initial.Designer.cs">
+      <DependentUpon>201601120126286_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -232,6 +213,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\PotatoCatalog %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\PotatoCatalog.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
@@ -393,27 +376,12 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201511251908458_Initial.resx">
-      <DependentUpon>201511251908458_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511301908497_added-imagepath-toGame.resx">
-      <DependentUpon>201511301908497_added-imagepath-toGame.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512011146066_added-croppedImagePath-toGame.resx">
-      <DependentUpon>201512011146066_added-croppedImagePath-toGame.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512011903429_removed-croppedImage-fromGame.resx">
-      <DependentUpon>201512011903429_removed-croppedImage-fromGame.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512121731588_12-12-15-AddedApprovedBool-toOrder.resx">
-      <DependentUpon>201512121731588_12-12-15-AddedApprovedBool-toOrder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.resx">
-      <DependentUpon>201512122019250_12-12-15-RemovedBoolAddedOrderStatusEnum-toOrder.cs</DependentUpon>
-    </EmbeddedResource>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <EmbeddedResource Include="Migrations\201601120126286_Initial.resx">
+      <DependentUpon>201601120126286_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
