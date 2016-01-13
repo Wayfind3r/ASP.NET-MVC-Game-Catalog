@@ -116,6 +116,7 @@
                 </div>
             </div>
             <button class="btn btn-danger">Image Upload disabled for Azure</button>
+            @Html.HiddenFor(model => model.ImagePath)
             @*@Html.LabelFor(model => model.ImagePath, new { @class = "col-md-2 control-label" })
             <input class="btn btn-default btn-warning" name="file" type="file" id="file" />*@
             <div class="form-group">

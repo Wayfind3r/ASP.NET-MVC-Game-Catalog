@@ -1,4 +1,5 @@
 ﻿@using System.Drawing
+@using Microsoft.AspNet.Identity
 @model PotatoCatalog.Models.CompleteGameViewModel
 
 @{
@@ -42,32 +43,43 @@
             <dd>
                 @Html.DisplayFor(model => model.Description)
             </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Editions)
-                </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Editions)
+            </dt>
+            <dd></dd>
+            
                 @foreach (var edition in Model.Editions)
                 {
-                    using (Html.BeginForm("AddToCart", "Cart"))
+                    if (Request.IsAuthenticated)
                     {
-                        <dd class="col-md-12 dropdown" style="margin: 3px;">
-                            @Html.Hidden("gameEditionId", edition.Id)
-                            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-                            <input type="submit" class="btn btn-primary" value="Add to cart" />
-                            <a class="dropdown-toggle" data-toggle="dropdown" style="margin: 5px">
-                                <span class="caret"></span>
-                                @edition.EditionTitle
-                                @*Place add to cart logic here*@
-                            </a>
-                            <a style="font-weight: bold; color: black;">
-                                Price in Potatoes: @edition.PriceInPotatoes
-                            </a>
-                            <ul class="dropdown-menu editionContents ">
-                                <li>
-                                    <p class="td" style="margin: 7px">@edition.Contents</p>
-                                </li>
-                            </ul>
-                        </dd>
+                        using (Html.BeginForm("AddToCart", "Cart"))
+                        {
+                            <dt style="margin: 5px;">
+                                @Html.Hidden("gameEditionId", edition.Id)
+                                @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                                <input type="submit" class="btn btn-primary" value="Add to cart"/>
+                            </dt>
+                        }
                     }
+                    <dd style="margin: 3px;">
+                        <div style="font-weight: bold; color: black;">
+                            @edition.EditionTitle
+                            Price: @edition.PriceInPotatoes
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" style="margin: 5px">
+                                    <span class="caret"></span>
+                                    Contents
+                                </a>
+                                <ul class="dropdown-menu editionContents">
+                                    <li>
+                                        <p class="td" style="margin: 7px">@edition.Contents</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </dd>
                 }
             @if (this.User.IsInRole("Admin"))
             {

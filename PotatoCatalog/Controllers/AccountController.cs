@@ -57,6 +57,7 @@ namespace PotatoCatalog.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -79,6 +80,7 @@ namespace PotatoCatalog.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    return RedirectToAction("Index", "Catalog");
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
