@@ -10,12 +10,14 @@ $(document).ready(function(){
 
 @if (Model != null)
 {
-    <div data-toggle="tooltip" data-placement="bottom" title="Oh yes, these are your potatoes. Use them to buy pixels from our Shop." >
-        <div class="navbar-text navbar-left" style="margin-left: 3px; margin-right: 3px">
-            @Model.Amount
-        </div>
-        <div class="navbar-right" style="margin-right: 5px;">
-            <img src="http://i.imgur.com/47X2ek9.png?1" class="img-responsive" alt="potatomoney" style="max-height: 30px; margin-top: 8px; margin-right: 10px;" />
+    <div class="col-xs-12">
+        <div  data-toggle="tooltip" data-placement="bottom" title="Oh yes, these are your potatoes. Use them to buy pixels from our Shop.">
+            <div class="pull-left navbar-text navbar-left" style="margin-left: 3px; margin-right: 3px">
+                @Model.Amount
+            </div>
+            <div class="navbar-right pull-left" style="margin-right: 5px;">
+                <img src="http://i.imgur.com/47X2ek9.png?1" class="img-responsive" alt="potatomoney" style="max-height: 30px; margin-top: 8px; margin-right: 10px;"/>
+            </div>
         </div>
     </div>
 }
