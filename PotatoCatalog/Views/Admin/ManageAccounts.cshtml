@@ -1,0 +1,55 @@
+﻿@using PagedList.Mvc
+@model PagedList.PagedList<PotatoCatalog.Models.UserTableViewModel>
+
+@{
+    ViewBag.Title = "Manage Accounts";
+    ViewBag.Message = "You can view accounts and preview their orders here.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="text-align: center">
+    <h2>@ViewBag.Title</h2>
+    <h4>@ViewBag.Message</h4>
+</div>
+<div style="margin: 10px; text-align: center">
+    @using (Html.BeginForm("ManageAccounts", "Admin", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString")
+        ;<input type="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left: 5px; margin-bottom: 5px;"/>
+    }
+</div>
+<div style="text-align: center">
+    @Html.PagedListPager(Model, page=>Url.Action("ManageAccounts", "Admin",
+    new {page, pageSize = Model.PageSize}))
+    Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Accounts
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr style="font-weight: bold">
+        <th>E-mail</th>
+        <th>Potatoes</th>
+        <th>Number of Orders</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var account in Model)
+    {
+        <tr>
+            <td>
+                @account.Email
+            </td>
+            <td>
+                @account.Potatoes
+            </td>
+            <td>
+                @account.NumberOfOrders
+            </td>
+            <td>
+                @if (account.NumberOfOrders > 0)
+                {
+                    @Html.ActionLink("orders", "ManageAccountOrders", "Admin", new { id = account.Id }, new { @class = "btn btn-primary btn-xs orders" })
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

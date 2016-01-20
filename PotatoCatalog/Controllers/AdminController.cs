@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using PagedList;
 using PotatoCatalog.Models;
 using PotatoCatalog.Services;
 
@@ -8,13 +10,29 @@ namespace PotatoCatalog.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private GameServices gameServices;
+        private UserServices userServices;
 
         public AdminController()
         {
-            gameServices = new GameServices();
+            userServices = new UserServices();
         }
-        
+
+        [HttpGet]
+        public ActionResult ManageAccounts(int page=1, int pageSize = 12, string searchString = null)
+        {
+            var list = new List<UserTableViewModel>();
+            if (String.IsNullOrEmpty(searchString))
+            {
+                list = userServices.GetUserTableViewModels();
+            }
+            else
+            {
+                list = userServices.GetUserTableViewModels(searchString);
+            }
+            var model = new PagedList<UserTableViewModel>(list, page, pageSize);
+            return View(model);
+        }
+
         // GET: Admin/Edit/5
         public ActionResult Edit(int id)
         {

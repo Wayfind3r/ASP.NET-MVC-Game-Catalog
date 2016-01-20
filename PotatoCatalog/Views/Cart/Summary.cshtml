@@ -1,5 +1,6 @@
 ﻿@model PotatoCatalog.Models.Cart
 
+<div>
 <div class="navbar-right pull-left">
     <a class="btn btn-default navbar-btn btn-sm" style="margin-left: 3px; margin-right: 3px;" href="@Url.Action("Index", "Cart", new {returnUrl = Request.Url.PathAndQuery})">
         <b>
@@ -9,7 +10,8 @@
     </a>
 </div>
 
-<div class="navbar-text navbar-right">
+<div class="navbar-text navbar-right pull-left">
     @Model.Lines.Sum(x => x.Quantity) item(s),
     @Model.ComputeTotalValue()
+</div>
 </div>
