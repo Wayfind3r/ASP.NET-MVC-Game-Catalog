@@ -73,10 +73,10 @@
                 @account.NumberOfOrders
             </td>
             <td>
+                <button class="btn btn-primary btn-xs potatoes" data-id="@account.Id" data-url="@Url.Action("Give300Potatoes", "Admin")">+300 potatoes</button>
                 @if (account.NumberOfOrders > 0)
                 {
-                    <button class="btn btn-primary btn-xs potatoes" data-id="@account.Id" data-url="@Url.Action("Give300Potatoes", "Admin")">+300 potatoes</button>
-                    @Html.ActionLink("orders", "ManageAccountOrders", "Admin", new { id = account.Id }, new { @class = "btn btn-primary btn-xs orders" })
+                    @Html.ActionLink("orders", "ManageAccountOrders", "Admin", new {id = account.Id}, new {@class = "btn btn-primary btn-xs orders"})
                 }
             </td>
         </tr>

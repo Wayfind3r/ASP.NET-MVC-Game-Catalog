@@ -27,17 +27,14 @@ namespace PotatoCatalog.Services
             List<UserTableViewModel> result;
             using (var db = new ApplicationDbContext())
             {
-                var iQueryableUsers = from u in db.Users
-                    join ord in db.Orders on u.Id equals ord.UserId
-                    group new {u, ord} by new {u.Id, u.Email, u.Potatoes}
-                    into t
-                    select new
-                    {
-                        Id = t.Key.Id,
-                       Email = t.Key.Email,
-                       Potatoes = t.Key.Potatoes,
-                       NumberOfOrders = t.Count()
-                    };
+                var iQueryableUsers = from user in db.Users
+                                      select new
+                                      {
+                                          Id = user.Id,
+                                          Email = user.Email,
+                                          Potatoes = user.Potatoes,
+                                          NumberOfOrders = user.Orders.Count
+                                      };
                 //In order to avoid System.NotSupportedException: 
                 //The entity or complex type 'PotatoCatalog.Models.UserTableViewModel' cannot be constructed in a LINQ to Entities query.
                 result = iQueryableUsers.AsEnumerable().Select(x=> new UserTableViewModel
@@ -59,19 +56,15 @@ namespace PotatoCatalog.Services
             string seachStringTolower = searchString.ToLowerInvariant();
             using (var db = new ApplicationDbContext())
             {
+                
                 var iQueryableUsers = from user in db.Users
                     where user.Email.Contains(seachStringTolower)
-                    join order in db.Orders
-                        on user.Id equals order.UserId
-                    group new {user, order}
-                        by new {user.Id, user.Email, user.Potatoes}
-                    into g
                     select new
                     {
-                        Id = g.Key.Id,
-                        Email = g.Key.Email,
-                        Potatoes = g.Key.Potatoes,
-                        NumberOfOrders = g.Count()
+                        Id = user.Id,
+                        Email = user.Email,
+                        Potatoes = user.Potatoes,
+                        NumberOfOrders = user.Orders.Count
                     };
                 //In order to avoid System.NotSupportedException: 
                 //The entity or complex type 'PotatoCatalog.Models.UserTableViewModel' cannot be constructed in a LINQ to Entities query.
