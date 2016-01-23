@@ -1,0 +1,39 @@
+﻿@using PagedList.Mvc
+@model PotatoCatalog.Models.SingleAccountOrderBag
+
+@{
+    ViewBag.Title = "Manage Account Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="text-align: center">
+    <h2>Manage Account Orders</h2>
+    <h4>@Model.Email</h4>
+</div>
+<div style="text-align: center">
+    @Html.PagedListPager(Model.PagedList, page => Url.Action("ManageAccountOrders", "Admin",
+    new {page, pageSize = Model.PageSize}))
+    Showing @Model.PagedList.FirstItemOnPage to @Model.PagedList.LastItemOnPage or @Model.PagedList.TotalItemCount Orders
+</div>
+<hr/>
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th>Address</th>
+        <th>Price in Potatoes</th>
+        <th>Order Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model.PagedList)
+    {
+        <tr>
+            <td>@order.Address</td>
+            <td>@order.PriceInPotatoes</td>
+            <td>@order.OrderStatus.ToString()</td>
+            <td>@Html.ActionLink("details","OrderDetails","Order", new {orderId = order.Id, returnUrl = Request.Url.PathAndQuery}, new {@class = "btn btn-info btn-xs"})</td>
+        </tr>
+    }
+    </tbody>
+</table>
+

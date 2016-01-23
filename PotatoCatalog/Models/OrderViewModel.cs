@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Net.Mail;
+using PagedList;
 using PotatoCatalog.Enums;
 using PotatoCatalog.Services;
 
@@ -21,6 +22,37 @@ namespace PotatoCatalog.Models
         public string UserEmail { get; set; }
     }
 
+    public class SingleAccountOrderBag
+    {
+        public string Email { get; private set; } = null;
+        public int Page { get; set; } = 1;
+        public int PageSize { get; set; } = 12;
+        public PagedList<OrderViewModel> PagedList { get; private set; }
+
+        private SingleAccountOrderBag() { }
+        public SingleAccountOrderBag(int page, int pageSize, int userId)
+        {
+            var userServices = new UserServices();
+            var orderServices = new OrderServices();
+            using (var db = new ApplicationDbContext())
+            {
+                if (db.Users.Any(x => x.Id == userId))
+                {
+                    Email = db.Users.FirstOrDefault(x => x.Id == userId).Email;
+                    var list = orderServices.GetOrderViewModelListForUser(userId);
+                    Page = page;
+                    PageSize = pageSize;
+                    PagedList = new PagedList<OrderViewModel>(list, Page, PageSize);
+                }
+            }
+        }
+
+    }
+
+    public class OrderCrapModelTest
+    {
+        public int Shit { get; set; }
+    }
     public class OrderDetailedViedModel
     {
         private List<CartLine> lineCollection = new List<CartLine>();

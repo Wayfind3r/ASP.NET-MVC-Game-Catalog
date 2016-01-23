@@ -366,6 +366,7 @@
     <Content Include="Views\Order\OrderDetails.cshtml" />
     <Content Include="Views\Game\HasOrders.cshtml" />
     <Content Include="Views\Admin\ManageAccounts.cshtml" />
+    <Content Include="Views\Admin\ManageAccountOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -21,7 +21,7 @@ namespace PotatoCatalog.Services
             var result = new Potatoes {Amount = potatoes};
             return result;
         }
-
+        //Returns TableViewModels for all Users
         public List<UserTableViewModel> GetUserTableViewModels()
         {
             List<UserTableViewModel> result;
@@ -51,7 +51,8 @@ namespace PotatoCatalog.Services
             }
             return result;
         }
-
+        //Returns TableViewModels for all Users
+        //Search by user E-mail (Contains)
         public List<UserTableViewModel> GetUserTableViewModels(string searchString)
         {
             List<UserTableViewModel> result;
@@ -85,5 +86,25 @@ namespace PotatoCatalog.Services
             }
             return result;
         } 
+
+        //Modifies a Users potatoes by adding the decimal value
+        public bool ModifyPotatoes(int Id, decimal value, out decimal currentPotatoes)
+        {
+            bool result = false;
+            currentPotatoes = 0;
+            using (var db = new ApplicationDbContext())
+            {
+                var userExists = db.Users.Any(x => x.Id == Id);
+                if (userExists)
+                {
+                    result = true;
+                    var user = db.Users.FirstOrDefault(u => u.Id == Id);
+                    user.Potatoes += value;
+                    currentPotatoes = user.Potatoes;
+                    db.SaveChanges();
+                }
+            }
+            return result;
+        }
     }
 }

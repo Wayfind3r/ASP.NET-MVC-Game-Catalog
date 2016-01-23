@@ -11,13 +11,16 @@ namespace PotatoCatalog.Controllers
     public class AdminController : Controller
     {
         private UserServices userServices;
+        private OrderServices orderServices;
 
         public AdminController()
         {
             userServices = new UserServices();
+            orderServices = new OrderServices();
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult ManageAccounts(int page=1, int pageSize = 12, string searchString = null)
         {
             var list = new List<UserTableViewModel>();
@@ -33,32 +36,25 @@ namespace PotatoCatalog.Controllers
             return View(model);
         }
 
-        // GET: Admin/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult ManageAccountOrders(int id, int page = 1, int pageSize = 12)
         {
-            return View();
+            var model = new SingleAccountOrderBag(page, pageSize, id);
+            return View(model);
         }
 
-        // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Give300Potatoes(int id)
         {
-            try
+            decimal potatoes = 0;
+            var success = userServices.ModifyPotatoes(id, 300,out potatoes);
+            if (success)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                return Json(new {Status = "success", Value = potatoes.ToString("0.00")});
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Admin/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+            return Json(new {Status = "error"});
         }
     }
 }

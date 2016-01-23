@@ -60,7 +60,5 @@ class ApplicationDbContext : IdentityDbContext<User, Role, int, UserLogin, UserR
         }
         public static ApplicationDbContext Create(){return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<PotatoCatalog.Models.UserTableViewModel> UserTableViewModels { get; set; }
     }
 }
